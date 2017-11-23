@@ -20,7 +20,7 @@
     "enterEmailInquiry": "Please enter your email",
     "greetingAgain" : "Hi again %s, how may i help you?",
     "greetingAsk" : "Hi %s, how may I help you today?",
-    "selectYourLanguage" : "Hi, I’m your personal assistant to answer your questions about our Banking Services. You can ask me simple questions like “How can I apply for a Credit Card?”, or “What are current offers”, or similar questions. At any time, you can ask to see the Main Menu by simply typing 'Main Menu' \n\n   ‘السلام عليكم، انا مساعدك الشخصي الآلي ويمكنك ان تسألني عن خدماتنا المصرفية. يمكنك طرح أسئلة بسيطة مثل ‘كيف يمكنني الحصول على بطاقة اعتماد’ أو ‘هل تقدمون أي عروض’ أو ما شابه. بإمكانك الرجوع إلى قائمة عرض رئيسية عبر كتابة عبارة ‘اللائحة الرئيسية’.",
+    "selectYourLanguage" : "السلام عليكم، أنا مستشارك الشخصي وسأقوم بالإجابة على جميع أسئلتك ومساعدتك على إيجاد مبتغاك بسهولة تامة. يرجى إختيار لغة التواصل التي تفضلها.\n\nHi, I’m your Personal Family Consultant and I’m here to answer your questions and help you easily find what you’re looking for. Please choose your preferred language.\n\n\n\nAt any time, you can return to the Main Menu by simply typing “Main Menu” -  ”بإمكانك الرجوع إلى قائمة العرض الرئيسية عبر كتابة عبارة ”اللائحة الرئيسية",
     "selectYourLanguageStart" : "Please select your language | برجاء أختيار لغتك المفضله",
     "getMobileNumber":"Please give me your mobile number",
     "getZones" :"Which zone are you more interested in?",
