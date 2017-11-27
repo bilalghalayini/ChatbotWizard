@@ -18,7 +18,7 @@
     "ValidUser" :"أهلا بك سيد %s !",
     "greetingAgain" : "مرحباً مرة أخرى %s، كيف يمكنني مساعدتك؟",
     "greetingAsk" : "مرحباً %s، كيف يمكنني مساعدتك؟",
-    "selectYourLanguage" : "السلام عليكم، أنا مستشارك الشخصي وسأقوم بالإجابة على جميع أسئلتك ومساعدتك على إيجاد مبتغاك بسهولة تامة. يرجى إختيار لغة التواصل التي تفضلها.\n\nHi, I’m your Personal Family Consultant and I’m here to answer your questions and help you easily find what you’re looking for. Please choose your preferred language.\n\n\n\nAt any time, you can return to the Main Menu by simply typing “Main Menu” -  ”بإمكانك الرجوع إلى قائمة العرض الرئيسية عبر كتابة عبارة ”اللائحة الرئيسية",
+    "selectYourLanguage" : "السلام عليكم، أنا مستشارك الشخصي وسأقوم بالإجابة على جميع أسئلتك ومساعدتك على إيجاد مبتغاك بسهولة تامة. يرجى إختيار لغة التواصل التي تفضلها.\n\nHi, I’m your Personal Family Consultant and I’m here to answer your questions and help you easily find what you’re looking for. Please choose your preferred language.\n\n\n\nAt any time, you can return to the Main Menu by simply typing \"Main Menu\" - بإمكانك الرجوع إلى قائمة العرض الرئيسية عبر كتابة عبارة \n\n\"اللائحة الرئيسية\"",
     "selectYourLanguageStart" : "Please select your language | برجاء أختيار لغتك المفضله",
     "getMobileNumber":"حسناً، ما هو رقم جوالك؟",
     "getZones" :"ما هي اهتماماتك؟",

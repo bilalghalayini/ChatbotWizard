@@ -346,10 +346,10 @@ var program = {
         },
         Services:{
             en:{
-                "Personal Banking":{Description:"Personal Banking"},
-                "Business Banking":{Description:"Business Banking"},
-                "Private Banking":{Description:"Private Banking"},
-                "Submit Inquiries":{Description:"Submit Inquiries"},
+                "Check Symptoms":{Description:"Check Symptoms"},
+                "Check My Health Calendar":{Description:"Check My Health Calendar"},
+                "Find a Doctor":{Description:"Find a Doctor"},
+                "Submit Complaint":{Description:"Submit Complaint"},
             },
             ar:{
                 "حساب شخصي":{Description:"حساب شخصي"},
@@ -406,18 +406,30 @@ var program = {
                 "الرجوع":{Description:"الرجوع"},
             }
         },
-       PersonalBankingServices :{
+       CheckSymptomsServices :{
             en:{
-                "Our Credit Cards":{Description:"Our Credit Cards"},
-                "Our Loan Offers":{Description:"Our Loan Offers"},
-                "Our Accounts":{Description:"Our Accounts"},
-                "Back":{Description:"Back"},
+                "Weight loss (unintentional)":{Description:"Weight loss (unintentional)"},
+                "Joint Pain":{Description:"Joint Pain"},
+                "High Blood Pressure":{Description:"High Blood Pressure"},
+                "Fever":{Description:"Fever"},
+                "Cough":{Description:"Cough"},
+                "Headache":{Description:"Headache"},
             },
             ar:{
                 "بطاقات الإئتمان":{Description:"بطاقات الإئتمان"},
                 "عروض القروض":{Description:"عروض القروض"},
                 "حساباتنا":{Description:"حساباتنا"},
                 "الرجوع":{Description:"الرجوع"},
+            }
+        },
+        CheckSymptomsOptionsText :{
+            en:{
+                "I’m looking for medical information":{Description:"I’m looking for medical information"},
+                "I want to see a doctor":{Description:"I want to see a doctor"},
+            },
+            ar:{
+                "بطاقات الإئتمان":{Description:"بطاقات الإئتمان"},
+                "عروض القروض":{Description:"عروض القروض"},
             }
         },
         AvailableProperty:{
@@ -704,14 +716,52 @@ var program = {
                 if(session.conversationData.isRegistered)
                     session.replaceDialog("Services");
                 else
-                {                    
-                    var AlreadyUserOptions = program.Helpers.GetOptions(program.Options.AlreadyUser,session.preferredLocale());
-                    builder.Prompts.choice(session, "areYouMemeber", AlreadyUserOptions,{listStyle: builder.ListStyle.button});
+                {      
+                    builder.Prompts.text(session, "areYouMemeber");              
                 }
             },
             function(session,results){
             //    session.conversationData.userType = results.response.entity;
-                if(results.response.index == 1)
+
+            //var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            //if(re.test(results.response))
+             //   {
+                    session.send("Please standby, I will get back to you in a few moments");
+                    dynamicsWebApi.retrieveAll("contacts", ["emailaddress1","firstname"], "statecode eq 0").then(function (response) {
+                        var records = response.value;
+                        results.response = "someone50@contoso.com";
+                        // session.send(JSON.stringify(response.value));
+                        // session.send('%s' , JSON.stringify(records).toLowerCase().indexOf(results.response.toLowerCase()))
+                        if(JSON.stringify(records).toLowerCase().indexOf(results.response.toLowerCase()) > 0 )
+                        {
+                            for (var i = 0; i < records.length; i++) {
+                                var element = records[i];
+                                if (element.emailaddress1 != null && element.emailaddress1.toLowerCase() == results.response.toLowerCase()) {
+                                    session.CRMResult = true;
+                                    session.conversationData.isRegistered = true;
+                                    session.conversationData.firstName = element.firstname;
+                                    session.send("ValidUserPatient",element.firstname)
+                                    session.replaceDialog("Services");
+                                    break;
+                                }
+                            }
+                           //session.endDialogWithResult(results);
+                        }
+                        else
+                        {
+                            session.dialogData.email = results.response;
+                            session.beginDialog("CollectDataCRM",{Email:results.response}); 
+                        }
+                    })
+                    .catch(function (error){
+                        session.send(JSON.stringify( error));
+                    });
+               // }
+           // else
+               // session.replaceDialog('ExistingUser', { reprompt: true });
+
+
+               /* if(results.response.index == 1)
                 {
                     session.conversationData.isRegistered = false;
                     session.replaceDialog("Services");
@@ -720,7 +770,7 @@ var program = {
                 {
                     session.conversationData.isRegistered = true;
                     session.replaceDialog("ValidateUser"); 
-                }
+                }*/
             },
                function (session,results) {
                    if (results.response.index == 0) {
@@ -1246,18 +1296,16 @@ var program = {
             }]);
 
      
-        
-
-
         varBot.dialog("Services",[
             function(session){
                 var ServicesList = program.Helpers.GetOptions(program.Options.Services,session.preferredLocale());
                 builder.Prompts.choice(session, "getServices", ServicesList,{listStyle: builder.ListStyle.button});
             },
             function(session,results){
+                
                 if (results.response.index == 0) {
                     // session.send("whichService");
-                    session.replaceDialog("PersonalBanking");
+                    session.replaceDialog("CheckSymptoms");
                 }
                 else if(results.response.index == 1)
                 {
@@ -1277,7 +1325,156 @@ var program = {
             }
         ]);
 
-        
+        varBot.dialog("CheckSymptoms",[
+            function(session){
+                var checkSypmtomsServicesList = program.Helpers.GetOptions(program.Options.CheckSymptomsServices,session.preferredLocale());
+                builder.Prompts.choice(session, "getSymptomsDynamic", checkSypmtomsServicesList,{listStyle: builder.ListStyle.button});
+            },
+            function(session,results){
+                console.log(results.response);
+                if (results.response.index == 0) {
+                   //credit cards dialog
+                   session.replaceDialog("CheckSymptomsOptions", { symptomName : results.response.entity});
+                }
+                else if(results.response.index == 1)
+                {
+                   session.replaceDialog("CheckSymptomsOptions", { symptomName : results.response.entity});
+                }
+                else if(results.response.index == 2)
+                {
+                    session.replaceDialog("CheckSymptomsOptions", { symptomName : results.response.entity});
+                }
+                else if(results.response.index == 3)
+                {
+                    session.replaceDialog("CheckSymptomsOptions", { symptomName : results.response.entity});
+                }
+            }
+        ]);
+        varBot.dialog("CheckSymptomsOptions",[
+            function(session, args){
+                session.dialogData.symptomName = args.symptomName;
+                var checkSypmtomsOptionsList = program.Helpers.GetOptions(program.Options.CheckSymptomsOptionsText,session.preferredLocale());
+                builder.Prompts.choice(session, "getSymptomsOptDynamic", checkSypmtomsOptionsList,{listStyle: builder.ListStyle.button});
+            },
+            function(session,results){
+                session.replaceDialog("MedicalInformation", { symptomName: session.dialogData.symptomName, DisplayOptions : "Available Credit Cards", ShowAll: "HeroCardsDialog" , NoOption:"CreditCard" , YesOption:"CollectInformationCRM" });
+                /*if (results.response.index == 0) {
+                   //credit cards dialog
+                   session.replaceDialog("MedicalInformation", { symptomName: session.dialogData.symptomName, DisplayOptions : "Available Credit Cards", ShowAll: "HeroCardsDialog" , NoOption:"CreditCard" , YesOption:"CollectInformationCRM" });
+                }
+                else if(results.response.index == 1)
+                {
+                    session.replaceDialog("MedicalInformation", { symptomName : session.dialogData.symptomName});
+                }
+                else if(results.response.index == 2)
+                {
+                    session.replaceDialog("MedicalInformation", { symptomName : session.dialogData.symptomName});
+                }
+                else if(results.response.index == 3)
+                {
+                    session.replaceDialog("MedicalInformation", { symptomName : session.dialogData.symptomName});
+                }*/
+            }
+        ]);  
+        varBot.dialog("MedicalInformation",[
+            function(session, args){
+                var titleArr = [];
+                var descriptionArr =[];
+                var linkArr = [];
+                session.dialogData.symptomName = args.symptomName;
+                switch (session.dialogData.symptomName){
+                    case "Weight loss (unintentional)":
+                    titleArr = ["Depression (Adult)","Peptic ulcer","Hyperthyroidism","Diabetes, type 1","Lung cancer (small cell)"];
+                    descriptionArr = ["Depression is a painful sadness that interferes with daily life and includes hopelessness, anxiety, and more.",
+                    "Peptic ulcers, sores in the lining of the stomach or upper intestine, cause abdominal pain, gas, and more.",
+                    "Hyperparathyroidism can cause fatigue and weakness, increased thirst, impaired thinking, and bone fractures.",
+                    "Diabetes can make you feel hungry, tired, or thirsty; you may urinate more than normal and have blurry vision.",
+                    "Small cell lung cancer is the least common type of lung cancer and can cause a cough, chest pain, and more."];
+                    linkArr = ["https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7aff&bpid[0]=66&sid[0]=257", "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7c4d&bpid[0]=66&sid[0]=257","https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e81ca&bpid[0]=66&sid[0]=257" ,"https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7b6c&bpid[0]=66&sid[0]=257" ,"https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7b6c&bpid[0]=66&sid[0]=257"]
+                        break;
+                    case "Joint Pain":
+                        break;
+                    case "High Blood Pressure":
+                        break;
+                    case "Fever":
+                        break;
+                    case "Cough":
+                        break;
+                    case "Headache":
+                        break;
+                }
+                session.dialogData.ShowAll = args.ShowAll;
+                session.dialogData.YesOption = args.YesOption;
+                session.dialogData.NoOption = args.NoOption;
+                session.dialogData.DisplayOptions = args.DisplayOptions;
+
+                var locale = session.preferredLocale();
+                var result = program.Options.AvailableProperty[locale][args.DisplayOptions];
+                session.dialogData.item = result;
+                if(!result.Cards)
+                {
+                    builder.Prompts.choice(session, result.Description, result.Items,{listStyle: builder.ListStyle.button});
+                }
+                else{
+                    var msg = new builder.Message(session);
+                    msg.attachmentLayout(builder.AttachmentLayout.carousel);
+                    var attachments = [];
+                    var txt = session.localizer.gettext(session.preferredLocale(),"select");
+                    for(var i=0; i<5; i++)
+                    {
+                        attachments.push(
+                             new builder.HeroCard(session)
+                            .title(titleArr[i])
+                            .text(descriptionArr[i].substring(0,250)+"...")
+                            .images([builder.CardImage.create(session, result.Items[i].Image)])
+                            //.buttons([
+                            //    builder.CardAction.imBack(session, result.Items[i].Title, txt)
+                            //])
+                        );
+                    }
+                    msg.attachments(attachments);
+                    //session.send(msg);
+                    builder.Prompts.choice(session, msg, result.Items,{listStyle: builder.ListStyle.button});
+                }
+            },
+            function(session,results){
+                var item = session.dialogData.item.Items[results.response.entity];
+                if(item.Cards)
+                {
+                    var msg = new builder.Message(session);
+                    var PropertyInterests = program.Helpers.GetOptions(program.Options.PropertyInterest,session.preferredLocale());
+                    session.conversationData.InternetedProduct = item.Title;
+                    // session.send(JSON.stringify(PropertyInterests))
+                    msg.attachmentLayout(builder.AttachmentLayout.carousel);
+                    msg.attachments([
+                        new builder.HeroCard(session)
+                        .title(item.Title)
+                        .text(item.Pref)
+                        .images([builder.CardImage.create(session, item.Image)])
+                        .buttons([
+                            builder.CardAction.imBack(session,Object.keys(PropertyInterests)[0], Object.keys(PropertyInterests)[0]),
+                            builder.CardAction.imBack(session,Object.keys(PropertyInterests)[1],Object.keys(PropertyInterests)[1]),
+                            builder.CardAction.imBack(session, Object.keys(PropertyInterests)[2],Object.keys(PropertyInterests)[2])
+                        ])
+                    ])
+
+                    // session.send(msg);//.endDialog();
+                    builder.Prompts.choice(session, msg, PropertyInterests, {listStyle: builder.ListStyle.button});
+                }
+                else{
+                   session.send(item.Title + "\n\n" +  item.Description);
+                   session.endDialog();     
+                }
+            },
+             function(session,results){
+                if(results.response.index == 0) 
+                    session.replaceDialog(session.dialogData.YesOption, {RequestType : ""});
+                else if(results.response.index == 1)
+                    session.replaceDialog(session.dialogData.ShowAll, { DisplayOptions : session.dialogData.DisplayOptions, ShowAll: session.dialogData.ShowAll , NoOption:session.dialogData.NoOption , YesOption:session.dialogData.YesOption}); 
+                else if(results.response.index == 2)
+                    session.replaceDialog(session.dialogData.NoOption);
+             }
+        ]); 
 
         varBot.dialog("PersonalBanking",[
             function(session){
@@ -1522,9 +1719,9 @@ var program = {
                 var txt = session.localizer.gettext("en","selectYourLanguage");
                 msg.attachments([
                 new builder.HeroCard(session)
-                    .title("AdvancaBank")
+                    .title("Tasmu")
                     .text(txt)
-                    .images([builder.CardImage.create(session, "https://raw.githubusercontent.com/moatazattar/Bank-Chatbot/master/images/AdvancyaBankLogo.png")])
+                    .images([builder.CardImage.create(session, "https://raw.githubusercontent.com/bilalghalayini/Tasmu-Chatbot/master/images/TasmuLogo.jpg")])
                     .buttons([
                         builder.CardAction.imBack(session, "English", "English"),
                         builder.CardAction.imBack(session, "العربية", "العربية"),
