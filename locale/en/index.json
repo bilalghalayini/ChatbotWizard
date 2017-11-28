@@ -40,6 +40,7 @@
     "whichService" : "Please ask me any question and I will do my best to answer it, type “Main Menu” at anytime to restart our chat",
     "getServices" : "Please select any of the below services to better serve you.",
     "getOtherOptionsAfterSymptoms" : "Can I help you with anything else today?",
+    "getFinalAppointment" : "Thanks, please leave any final comments for your doctor.\n\nYou can type your comments below, or you can press the Record button to record a voice message which your doctor will receive.",
     "getTimeSlotSelected" : "Thank you for your choice.\n\nPlease give me your email so we can send you your appointment information.",
     "getServicesDynamic" : "Please select any of the below services to better serve you.",
     "getSymptomsDynamic" : "I’m sorry you’re feeling unhealthy today, please tell me which of the below options best describes your symptoms:",
