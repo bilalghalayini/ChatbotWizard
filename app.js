@@ -1954,12 +1954,18 @@ var program = {
         ]);
 
         varBot.dialog("TimeSlotSelected",[
-            function(session){
+            function(session, results){
+                console.log(results);
                 builder.Prompts.text(session, "getTimeSlotSelected");  
             },
             function(session,results){
                 session.conversationData.patientEmail = results.response;
                 builder.Prompts.text(session, "getFinalAppointment");  
+            }
+            ,
+            function(session,results){
+                session.conversationData.patientComments = results.response;
+                builder.Prompts.text(session, "getFinalAppointmentComments");  
             }
         ]);
 
