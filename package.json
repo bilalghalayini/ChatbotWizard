@@ -26,6 +26,7 @@
     "dateformat": "^2.0.0",
     "dynamics-web-api": "^1.2.9",
     "express": "^4.15.4",
+    "moment": "^2.19.2",
     "nodemailer": "^4.0.1",
     "q": "^1.5.0",
     "restify": "^5.2.0",

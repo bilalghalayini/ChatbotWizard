@@ -1,6 +1,7 @@
 var restify = require('restify');
 var builder = require('botbuilder');
 var https = require('https');
+var moment = require('moment'); 
 var cognitiveservices = require('botbuilder-cognitiveservices');
 var nodemailer = require('nodemailer');
 var DynamicsWebApi = require('dynamics-web-api');
@@ -332,6 +333,18 @@ var program = {
                 "لا":{Description:"لا"},
             }
         },
+        TimeSlots:{
+            en:{
+               "TimeSlot1":{Description:"8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY")},
+                "TimeSlot2":{Description:"10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY")},
+                "TimeSlot3":{Description:"12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY")}
+            },
+            ar:{
+                "المزيد":{Description:"نعم"},
+                "لا":{Description:"لا"},
+                "إظهر الكل":{Description:"إظهر الكل"}
+            }
+        },
         PropertyInterest:{
             en:{
                "More Info":{Description:"Yes"},
@@ -392,6 +405,32 @@ var program = {
                 "عرض القروض المتاحه":{Description:"عرض القروض المتاحه"},
                 "القائمه الرئيسيه":{Description:"القائمه الرئيسيه"},
                 "Change Language | تغيير اللغه":{Description:"Change Language| تغيير اللغه"},
+            }
+        },
+        OtherOptionsAfterSymptomsChoiceServices :{
+            en:{
+                "I want to see a doctor":{Description:"I want to see a doctor"},
+                "Return to Main Menu":{Description:"Return to Main Menu"},
+                "No Thanks":{Description:"No Thanks"}
+            },
+            ar:{
+                "بطاقات الإئتمان":{Description:"بطاقات الإئتمان"},
+                "عروض القروض":{Description:"عروض القروض"},
+                "حساباتنا":{Description:"حساباتنا"},
+                "الرجوع":{Description:"الرجوع"},
+            }
+        },
+        SelectDoctorAppointmentOptions :{
+            en:{
+                "I want to see a doctor":{Description:"I want to see a doctor"},
+                "Return to Main Menu":{Description:"Return to Main Menu"},
+                "No Thanks":{Description:"No Thanks"}
+            },
+            ar:{
+                "بطاقات الإئتمان":{Description:"بطاقات الإئتمان"},
+                "عروض القروض":{Description:"عروض القروض"},
+                "حساباتنا":{Description:"حساباتنا"},
+                "الرجوع":{Description:"الرجوع"},
             }
         },
         LoanOffersServices:{
@@ -468,6 +507,85 @@ var program = {
                         }
                     }    
                 },
+                "Doctor-Weight loss (unintentional)":{
+                    Cards : true,
+                    Title:"Doctor-Weight loss (unintentional)", 
+                    Description:"please select one of the below",
+                    Items:{
+                        "Dr. Jessica Tailor": {
+                            Cards : true,
+                            Image: "http://tasmu.advancya.com/images/Doctor%2001.jpg",
+                            Speciality: "Dental Implant Surgeon",
+                            Symptoms: "Weight loss (unintentional)",
+                            Location: "Qatar",
+                            TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
+                            Name:"Dr. Jessica Tailor",
+                            Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
+                        },  
+                        "Dr. Nicholas Fleming": {
+                            Cards : true,
+                            Image: "http://tasmu.advancya.com/images/Doctor%2004.jpg",
+                            Speciality: "Restorative Dentist",
+                            Symptoms: "Weight loss (unintentional)",
+                            Location: "Qatar",
+                            TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
+                            Name:"Dr. Nicholas Fleming",
+                            Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
+                        }, 
+                        "Dr. Brian Adam": {
+                            Cards : true,
+                            Image: "http://tasmu.advancya.com/images/Doctor%2002.jpg",
+                            Speciality: "Orthodontics",
+                            Symptoms: "Weight loss (unintentional)",
+                            Location: "Qatar",
+                            TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
+                            Name:"Dr. Brian Adam",
+                            Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
+                        }, 
+                    }
+                 },
+                "Weight loss (unintentional)":{
+                    Cards : true,
+                    Title:"Weight loss (unintentional)", 
+                    Description:"please select one of the below",
+                    Items:{
+                        "Depression (Adult)": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e819b&bpid[0]=56&sid[0]=279",
+                            Title:"Depression (Adult)",
+                            Description:"Depression is a painful sadness that interferes with daily life and includes hopelessness, anxiety, and more.",
+                            Pref: "Depression is a painful sadness that interferes with daily life and includes hopelessness, anxiety, and more."
+                        },  
+                        "Peptic ulcer": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7c4d&bpid[0]=66&sid[0]=257",
+                            Title:"Peptic ulcer",
+                            Description:"Peptic ulcers, sores in the lining of the stomach or upper intestine, cause abdominal pain, gas, and more.",
+                            Pref: "Peptic ulcers, sores in the lining of the stomach or upper intestine, cause abdominal pain, gas, and more."
+                        },  
+                        "Hyperthyroidism": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7a94&bpid[0]=56&sid[0]=279",
+                            Title:"Hyperthyroidism",
+                            Description:"Hyperparathyroidism can cause fatigue and weakness, increased thirst, impaired thinking, and bone fractures.​​​​",
+                            Pref: "Hyperparathyroidism can cause fatigue and weakness, increased thirst, impaired thinking, and bone fractures."
+                        },
+                        "Diabetes, type 1": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7b6c&bpid[0]=66&sid[0]=257",
+                            Title:"Diabetes, type 1",
+                            Description:"Diabetes can make you feel hungry, tired, or thirsty; you may urinate more than normal and have blurry vision.​​​​",
+                            Pref: "Diabetes can make you feel hungry, tired, or thirsty; you may urinate more than normal and have blurry vision."
+                        },
+                        "Lung cancer (small cell)": {
+                                Cards : true,
+                                URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7b6c&bpid[0]=66&sid[0]=257",
+                                Title:"Lung cancer (small cell)",
+                                Description:"Small cell lung cancer is the least common type of lung cancer and can cause a cough, chest pain, and more.​​​​",
+                                Pref: "Small cell lung cancer is the least common type of lung cancer and can cause a cough, chest pain, and more."
+                        }
+                    }
+                 }, 
                 "Available Credit Cards":{
                     Cards : true,
                     Title:"Available Credit Cards", 
@@ -1357,7 +1475,11 @@ var program = {
                 builder.Prompts.choice(session, "getSymptomsOptDynamic", checkSypmtomsOptionsList,{listStyle: builder.ListStyle.button});
             },
             function(session,results){
-                session.replaceDialog("MedicalInformation", { symptomName: session.dialogData.symptomName, DisplayOptions : "Available Credit Cards", ShowAll: "HeroCardsDialog" , NoOption:"CreditCard" , YesOption:"CollectInformationCRM" });
+                switch (session.dialogData.symptomName){
+                    case "Weight loss (unintentional)":
+                    session.replaceDialog("MedicalInformation", { symptomName: session.dialogData.symptomName, DisplayOptions : "Weight loss (unintentional)", ShowAll: "HeroCardsDialog" , NoOption:"CreditCard" , YesOption:"CollectInformationCRM" });
+                    break;
+                }
                 /*if (results.response.index == 0) {
                    //credit cards dialog
                    session.replaceDialog("MedicalInformation", { symptomName: session.dialogData.symptomName, DisplayOptions : "Available Credit Cards", ShowAll: "HeroCardsDialog" , NoOption:"CreditCard" , YesOption:"CollectInformationCRM" });
@@ -1378,31 +1500,7 @@ var program = {
         ]);  
         varBot.dialog("MedicalInformation",[
             function(session, args){
-                var titleArr = [];
-                var descriptionArr =[];
-                var linkArr = [];
-                session.dialogData.symptomName = args.symptomName;
-                switch (session.dialogData.symptomName){
-                    case "Weight loss (unintentional)":
-                    titleArr = ["Depression (Adult)","Peptic ulcer","Hyperthyroidism","Diabetes, type 1","Lung cancer (small cell)"];
-                    descriptionArr = ["Depression is a painful sadness that interferes with daily life and includes hopelessness, anxiety, and more.",
-                    "Peptic ulcers, sores in the lining of the stomach or upper intestine, cause abdominal pain, gas, and more.",
-                    "Hyperparathyroidism can cause fatigue and weakness, increased thirst, impaired thinking, and bone fractures.",
-                    "Diabetes can make you feel hungry, tired, or thirsty; you may urinate more than normal and have blurry vision.",
-                    "Small cell lung cancer is the least common type of lung cancer and can cause a cough, chest pain, and more."];
-                    linkArr = ["https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7aff&bpid[0]=66&sid[0]=257", "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7c4d&bpid[0]=66&sid[0]=257","https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e81ca&bpid[0]=66&sid[0]=257" ,"https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7b6c&bpid[0]=66&sid[0]=257" ,"https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7b6c&bpid[0]=66&sid[0]=257"]
-                        break;
-                    case "Joint Pain":
-                        break;
-                    case "High Blood Pressure":
-                        break;
-                    case "Fever":
-                        break;
-                    case "Cough":
-                        break;
-                    case "Headache":
-                        break;
-                }
+                session.conversationData.symptomName = args.symptomName;
                 session.dialogData.ShowAll = args.ShowAll;
                 session.dialogData.YesOption = args.YesOption;
                 session.dialogData.NoOption = args.NoOption;
@@ -1419,17 +1517,62 @@ var program = {
                     var msg = new builder.Message(session);
                     msg.attachmentLayout(builder.AttachmentLayout.carousel);
                     var attachments = [];
-                    var txt = session.localizer.gettext(session.preferredLocale(),"select");
-                    for(var i=0; i<5; i++)
+                    var txt = session.localizer.gettext(session.preferredLocale(),"Select");
+                    for(var i in result.Items)
                     {
                         attachments.push(
                              new builder.HeroCard(session)
-                            .title(titleArr[i])
-                            .text(descriptionArr[i].substring(0,250)+"...")
+                            .title(result.Items[i].Title)
+                            .text(result.Items[i].Description.substring(0,250)+"...")
+                            //.images([builder.CardImage.create(session, "https://raw.githubusercontent.com/bilalghalayini/Tasmu-Chatbot/master/images/logo-webmd-site.png")])
+                            .buttons([
+                                //builder.CardAction.imBack(session, result.Items[i].Title, txt)
+                                builder.CardAction.openUrl(session, result.Items[i].URL , txt)
+                            ])
+                        );
+                    }
+                    msg.attachments(attachments);
+                    //session.send(msg);
+                    builder.Prompts.choice(session, msg, result.Items,{listStyle: builder.ListStyle.button});
+                    session.endDialog();
+                    session.replaceDialog("OtherOptionsAfterSymptomsChoice"); 
+                }
+            },
+            function(session,results){
+
+            },
+             function(session,results){               
+             }
+        ]); 
+        varBot.dialog("SelectDoctorAppointment",[
+            function(session, args){
+                session.dialogData.ShowAll = args.ShowAll;
+                session.dialogData.YesOption = args.YesOption;
+                session.dialogData.NoOption = args.NoOption;
+                session.dialogData.DisplayOptions = args.DisplayOptions;
+
+                var locale = session.preferredLocale();
+                var result = program.Options.AvailableProperty[locale][args.DisplayOptions];
+                session.dialogData.item = result;
+                if(!result.Cards)
+                {
+                    builder.Prompts.choice(session, result.Description, result.Items,{listStyle: builder.ListStyle.button});
+                }
+                else{
+                    var msg = new builder.Message(session);
+                    msg.attachmentLayout(builder.AttachmentLayout.carousel);
+                    var attachments = [];
+                    var txt = session.localizer.gettext(session.preferredLocale(),"Select");
+                    for(var i in result.Items)
+                    {
+                        attachments.push(
+                             new builder.HeroCard(session)
+                            .title(result.Items[i].Name)
+                            .text(result.Items[i].TimeSlots + "\n\n Location: " + result.Items[i].Location)
                             .images([builder.CardImage.create(session, result.Items[i].Image)])
-                            //.buttons([
-                            //    builder.CardAction.imBack(session, result.Items[i].Title, txt)
-                            //])
+                            .buttons([
+                                builder.CardAction.imBack(session, result.Items[i].Name, txt)
+                            ])
                         );
                     }
                     msg.attachments(attachments);
@@ -1441,25 +1584,26 @@ var program = {
                 var item = session.dialogData.item.Items[results.response.entity];
                 if(item.Cards)
                 {
+                    
                     var msg = new builder.Message(session);
-                    var PropertyInterests = program.Helpers.GetOptions(program.Options.PropertyInterest,session.preferredLocale());
+                    var TimeSlots = program.Helpers.GetOptions(program.Options.TimeSlots,session.preferredLocale());
                     session.conversationData.InternetedProduct = item.Title;
                     // session.send(JSON.stringify(PropertyInterests))
                     msg.attachmentLayout(builder.AttachmentLayout.carousel);
                     msg.attachments([
                         new builder.HeroCard(session)
-                        .title(item.Title)
+                        .title(item.Name)
                         .text(item.Pref)
                         .images([builder.CardImage.create(session, item.Image)])
                         .buttons([
-                            builder.CardAction.imBack(session,Object.keys(PropertyInterests)[0], Object.keys(PropertyInterests)[0]),
-                            builder.CardAction.imBack(session,Object.keys(PropertyInterests)[1],Object.keys(PropertyInterests)[1]),
-                            builder.CardAction.imBack(session, Object.keys(PropertyInterests)[2],Object.keys(PropertyInterests)[2])
+                            builder.CardAction.imBack(session,Object.keys(TimeSlots)[0], TimeSlots[Object.keys(TimeSlots)[0]].Description),
+                            builder.CardAction.imBack(session,Object.keys(TimeSlots)[1],TimeSlots[Object.keys(TimeSlots)[1]].Description),
+                            builder.CardAction.imBack(session, Object.keys(TimeSlots)[2],TimeSlots[Object.keys(TimeSlots)[2]].Description)
                         ])
                     ])
 
                     // session.send(msg);//.endDialog();
-                    builder.Prompts.choice(session, msg, PropertyInterests, {listStyle: builder.ListStyle.button});
+                    builder.Prompts.choice(session, msg, TimeSlots, {listStyle: builder.ListStyle.button});
                 }
                 else{
                    session.send(item.Title + "\n\n" +  item.Description);
@@ -1467,14 +1611,45 @@ var program = {
                 }
             },
              function(session,results){
-                if(results.response.index == 0) 
-                    session.replaceDialog(session.dialogData.YesOption, {RequestType : ""});
-                else if(results.response.index == 1)
-                    session.replaceDialog(session.dialogData.ShowAll, { DisplayOptions : session.dialogData.DisplayOptions, ShowAll: session.dialogData.ShowAll , NoOption:session.dialogData.NoOption , YesOption:session.dialogData.YesOption}); 
-                else if(results.response.index == 2)
-                    session.replaceDialog(session.dialogData.NoOption);
+                session.replaceDialog("TimeSlotSelected");
+              //  if(results.response.index == 0) 
+               //     session.replaceDialog(session.dialogData.YesOption, {RequestType : ""});
+             //   else if(results.response.index == 1)
+                //    session.replaceDialog(session.dialogData.ShowAll, { DisplayOptions : session.dialogData.DisplayOptions, ShowAll: session.dialogData.ShowAll , NoOption:session.dialogData.NoOption , YesOption:session.dialogData.YesOption}); 
+               // else if(results.response.index == 2)
+                //    session.replaceDialog(session.dialogData.NoOption);
              }
-        ]); 
+        ]);
+
+        varBot.dialog("TimeSlotSelected",[
+            function(session){
+                builder.Prompts.text(session, "getTimeSlotSelected");  
+            },
+            function(session,results){
+            }
+        ]);
+
+        varBot.dialog("OtherOptionsAfterSymptomsChoice",[
+            function(session){
+                var otherOptionsAfterSymptomsChoiceList = program.Helpers.GetOptions(program.Options.OtherOptionsAfterSymptomsChoiceServices,session.preferredLocale());
+                builder.Prompts.choice(session, "getOtherOptionsAfterSymptoms", otherOptionsAfterSymptomsChoiceList,{listStyle: builder.ListStyle.button});
+            },
+            function(session,results){
+                if (results.response.index == 0) {
+                    session.send("bookAppointment");
+                    session.replaceDialog("SelectDoctorAppointment", {  DisplayOptions : "Doctor-" + session.conversationData.symptomName, ShowAll: "HeroCardsDialog" , NoOption:"CreditCard" , YesOption:"CollectInformationCRM" });
+                }
+                else if(results.response.index == 1)
+                {
+                    session.send("ValidUserPatient",session.conversationData.firstName);
+                    session.replaceDialog("Services");
+                }
+                else if(results.response.index == 2)
+                {
+                    session.send("NoThanks");
+                }
+            }
+        ]);
 
         varBot.dialog("PersonalBanking",[
             function(session){
