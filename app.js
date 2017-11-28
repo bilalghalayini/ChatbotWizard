@@ -8,7 +8,7 @@ var DynamicsWebApi = require('dynamics-web-api');
 var AuthenticationContext = require('adal-node').AuthenticationContext;
 var dynamicsWebApi = new DynamicsWebApi({ 
     // webApiUrl: 'https://advancyaqatar0.crm4.dynamics.com/api/data/v8.2/',
-    webApiUrl: 'https://advancyaaqatar.crm.dynamics.com/api/data/v8.2/',
+    webApiUrl: 'https://advancyaad.crm4.dynamics.com/api/data/v8.2/',
     onTokenRefresh: acquireToken
 });
 Q = require('q');
@@ -19,11 +19,11 @@ var app = require('express')();
 // var clientId = 'a5fca245-2eb5-469b-9a36-445203c29a9b';
 // var username = 'moatazattar@advancyaQatar.onmicrosoft.com';
 
-var authorityUrl = 'https://login.microsoftonline.com/28e841b2-0c6d-4ec8-b792-66d36aaaa093/oauth2/token';
-var resource = 'https://advancyaaqatar.crm.dynamics.com';
-var clientId = '7867c3c0-da4a-4658-91dc-24c7373a46b3';
-var username = 'amokdad@advancyaaQatar.onmicrosoft.com';
-var password = '1!!xuloloL';
+var authorityUrl = 'https://login.microsoftonline.com/94aeda88-8526-4ec8-b28f-fa67a055379f/oauth2/token';
+var resource = 'https://advancyaad.crm4.dynamics.com';
+var clientId = '1ae582b5-4b16-4b40-b180-0239e9b2b947';
+var username = 'amokdad@advancyaad.onmicrosoft.com';
+var password = 'p@ssw0rd2';
 var adalContext = new AuthenticationContext(authorityUrl);
 function acquireToken(dynamicsWebApiCallback){
     function adalCallback(error, token) {
@@ -514,32 +514,157 @@ var program = {
                     Items:{
                         "Dr. Jessica Tailor": {
                             Cards : true,
-                            Image: "http://tasmu.advancya.com/images/Doctor%2001.jpg",
-                            Speciality: "Dental Implant Surgeon",
+                            Image: "http://tasmu.advancya.com/images/Doctor 01.jpg",
                             Symptoms: "Weight loss (unintentional)",
-                            Location: "Qatar",
+                            Location: "Doha Clinic",
+                            Speciality: "Health & Fitness",
                             TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
                             Name:"Dr. Jessica Tailor",
                             Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
                         },  
                         "Dr. Nicholas Fleming": {
                             Cards : true,
-                            Image: "http://tasmu.advancya.com/images/Doctor%2004.jpg",
-                            Speciality: "Restorative Dentist",
+                            Image: "http://tasmu.advancya.com/images/Doctor 02.jpg",
                             Symptoms: "Weight loss (unintentional)",
-                            Location: "Qatar",
+                            Location: "Ahli Hospital",
+                            Speciality: "Health & Fitness",
                             TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
                             Name:"Dr. Nicholas Fleming",
                             Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
                         }, 
+                    }
+                 },
+                 "Doctor-High Blood Pressure":{
+                    Cards : true,
+                    Title:"Doctor-Weight loss (unintentional)", 
+                    Description:"please select one of the below",
+                    Items:{
+                        "Dr. Jessica Tailor": {
+                            Cards : true,
+                            Image: "http://tasmu.advancya.com/images/Doctor 01.jpg",
+                            Symptoms: "Weight loss (unintentional)",
+                            Location: "Doha Clinic",
+                            Speciality: "Health & Fitness",
+                            TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
+                            Name:"Dr. Jessica Tailor",
+                            Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
+                        },  
+                        "Dr. Nicholas Fleming": {
+                            Cards : true,
+                            Image: "http://tasmu.advancya.com/images/Doctor 02.jpg",
+                            Symptoms: "Weight loss (unintentional)",
+                            Location: "Ahli Hospital",
+                            Speciality: "Health & Fitness",
+                            TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
+                            Name:"Dr. Nicholas Fleming",
+                            Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
+                        }, 
+                    }
+                 },
+                 "Doctor-Joint Pain":{
+                    Cards : true,
+                    Title:"Doctor-Joint Pain", 
+                    Description:"please select one of the below",
+                    Items:{
                         "Dr. Brian Adam": {
                             Cards : true,
-                            Image: "http://tasmu.advancya.com/images/Doctor%2002.jpg",
-                            Speciality: "Orthodontics",
-                            Symptoms: "Weight loss (unintentional)",
-                            Location: "Qatar",
+                            Image: "http://tasmu.advancya.com/images/Doctor 01.jpg",
+                            Symptoms: "Joint Pain",
+                            Location: "Doha Clinic",
+                            Speciality: "General Medicine",
                             TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
                             Name:"Dr. Brian Adam",
+                            Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
+                        },  
+                        "Dr. Linda Feldman": {
+                            Cards : true,
+                            Image: "http://tasmu.advancya.com/images/Doctor 02.jpg",
+                            Symptoms: "Joint Pain",
+                            Location: "Emadi Hospital",
+                            Speciality: "General Medicine",
+                            TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
+                            Name:"Dr. Linda Feldman",
+                            Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
+                        }, 
+                    }
+                 },
+                 "Doctor-Cough":{
+                    Cards : true,
+                    Title:"Doctor-Cough", 
+                    Description:"please select one of the below",
+                    Items:{
+                        "Dr. Brian Adam": {
+                            Cards : true,
+                            Image: "http://tasmu.advancya.com/images/Doctor%2003.jpg",
+                            Symptoms: "Cough",
+                            Location: "Doha Clinic",
+                            Speciality: "General Medicine",
+                            TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
+                            Name:"Dr. Brian Adam",
+                            Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
+                        },  
+                        "Dr. Linda Feldman": {
+                            Cards : true,
+                            Image: "http://tasmu.advancya.com/images/Doctor%2004.jpg",
+                            Symptoms: "Cough",
+                            Location: "Emadi Hospital",
+                            Speciality: "General Medicine",
+                            TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
+                            Name:"Dr. Linda Feldman",
+                            Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
+                        }, 
+                    }
+                 },
+                 "Doctor-Fever":{
+                    Cards : true,
+                    Title:"Doctor-Fever", 
+                    Description:"please select one of the below",
+                    Items:{
+                        "Dr. Brian Adam": {
+                            Cards : true,
+                            Image: "http://tasmu.advancya.com/images/Doctor%2005.jpg",
+                            Symptoms: "Fever",
+                            Location: "Apollo Clinic",
+                            Speciality: "Rheumatology",
+                            TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
+                            Name:"Dr. Brian Adam",
+                            Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
+                        },  
+                        "Dr. Jessica Tailor": {
+                            Cards : true,
+                            Image: "http://tasmu.advancya.com/images/Doctor%2006.jpg",
+                            Symptoms: "Fever",
+                            Location: "Hamad Hospital",
+                            Speciality: "Rheumatology",
+                            TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
+                            Name:"Dr. Linda Feldman",
+                            Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
+                        }, 
+                    }
+                 },
+                 "Doctor-Headache":{
+                    Cards : true,
+                    Title:"Doctor-Headache", 
+                    Description:"please select one of the below",
+                    Items:{
+                        "Dr. Brian Adam": {
+                            Cards : true,
+                            Image: "http://tasmu.advancya.com/images/Doctor%2005.jpg",
+                            Symptoms: "Headache",
+                            Location: "Apollo Clinic",
+                            Speciality: "Rheumatology",
+                            TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
+                            Name:"Dr. Brian Adam",
+                            Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
+                        },  
+                        "Dr. Jessica Tailor": {
+                            Cards : true,
+                            Image: "http://tasmu.advancya.com/images/Doctor%2006.jpg",
+                            Symptoms: "Headache",
+                            Location: "Hamad Hospital",
+                            Speciality: "Rheumatology",
+                            TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
+                            Name:"Dr. Linda Feldman",
                             Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
                         }, 
                     }
@@ -583,6 +708,216 @@ var program = {
                                 Title:"Lung cancer (small cell)",
                                 Description:"Small cell lung cancer is the least common type of lung cancer and can cause a cough, chest pain, and more.​​​​",
                                 Pref: "Small cell lung cancer is the least common type of lung cancer and can cause a cough, chest pain, and more."
+                        }
+                    }
+                 }, 
+                 "Joint Pain":{
+                    Cards : true,
+                    Title:"Joint Pain", 
+                    Description:"please select one of the below",
+                    Items:{
+                        "Osteoarthritis": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e819b&bpid[0]=56&sid[0]=279",
+                            Title:"Osteoarthritis",
+                            Description:"Osteoarthritis happens when the cartilage in your joints breaks down causing pain, stiffness, and swelling.",
+                            Pref: "Osteoarthritis happens when the cartilage in your joints breaks down causing pain, stiffness, and swelling."
+                        },  
+                        "Tendinitis": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7b81&bpid[0]=56&sid[0]=279",
+                            Title:"Tendinitis",
+                            Description:"Tendinitis symptoms include muscle and tendon pain or stiffness close to a joint, and pain with movement.",
+                            Pref: "Tendinitis symptoms include muscle and tendon pain or stiffness close to a joint, and pain with movement."
+                        },  
+                        "Pseudogout": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7a94&bpid[0]=56&sid[0]=279",
+                            Title:"Pseudogout",
+                            Description:"Repetitive motion injuries can cause numbness, tingling, and weakness in a hand, arm, leg, or foot.",
+                            Pref: "Repetitive motion injuries can cause numbness, tingling, and weakness in a hand, arm, leg, or foot."
+                        },
+                        "Septic arthritis": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e81d4&bpid[0]=56&sid[0]=279",
+                            Title:"Septic arthritis",
+                            Description:"Pseudogout is a type of arthritis similar to gout, where crystals form in the joints, causing swelling and pain.​​​​",
+                            Pref: "Pseudogout is a type of arthritis similar to gout, where crystals form in the joints, causing swelling and pain."
+                        },
+                        "Slipped capital femoral epiphysis": {
+                                Cards : true,
+                                URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7c85&bpid[0]=56&sid[0]=279",
+                                Title:"Slipped capital femoral epiphysis",
+                                Description:"Septic arthritis, a joint infection, causes severe pain, swelling, redness, and warmth in the joint and fever.​​​​",
+                                Pref: "Septic arthritis, a joint infection, causes severe pain, swelling, redness, and warmth in the joint and fever."
+                        }
+                    }
+                 }, 
+                 "High Blood Pressure":{
+                    Cards : true,
+                    Title:"High Blood Pressure", 
+                    Description:"please select one of the below",
+                    Items:{
+                        "Acute stress reaction": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7b59&bpid[0]=66&sid[0]=406",
+                            Title:"Acute stress reaction",
+                            Description:"Acute stress reaction symptoms include shortness of breath, anxiety, nervousness, sense of doom and more.",
+                            Pref: "Acute stress reaction symptoms include shortness of breath, anxiety, nervousness, sense of doom and more."
+                        },  
+                        "High blood pressure (hypertension)": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7b14&bpid[0]=66&sid[0]=406",
+                            Title:"High blood pressure (hypertension)",
+                            Description:"High blood pressure, often asymptomatic, can cause headaches, shortness of breath, nosebleeds, and anxiety.",
+                            Pref: "High blood pressure, often asymptomatic, can cause headaches, shortness of breath, nosebleeds, and anxiety."
+                        },  
+                        "Drug overdose": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7b82&bpid[0]=66&sid[0]=406",
+                            Title:"Drug overdose",
+                            Description:"A drug overdose can be fatal and causes sleepiness, confusion, coma, vomiting, and other symptoms.",
+                            Pref: "A drug overdose can be fatal and causes sleepiness, confusion, coma, vomiting, and other symptoms."
+                        },
+                        "Polycystic kidney disease": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7a82&bpid[0]=66&sid[0]=406",
+                            Title:"Polycystic kidney disease",
+                            Description:"Polycystic kidney disease can cause abdominal pain, headaches, and pain in the sides and back.​​​​",
+                            Pref: "Polycystic kidney disease can cause abdominal pain, headaches, and pain in the sides and back."
+                        },
+                        "Narcotic abuse": {
+                                Cards : true,
+                                URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e80d8&bpid[0]=66&sid[0]=406",
+                                Title:"Narcotic abuse",
+                                Description:"Narcotic abuse can cause fatigue, shallow breathing, anxiety, euphoria, vomiting, confusion, and constipation.",
+                                Pref: "Narcotic abuse can cause fatigue, shallow breathing, anxiety, euphoria, vomiting, confusion, and constipation."
+                        }
+                    }
+                 },
+                 "Fever":{
+                    Cards : true,
+                    Title:"Fever", 
+                    Description:"please select one of the below",
+                    Items:{
+                        "Viral pharyngitis": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e8186&bpid[0]=2&sid[0]=102",
+                            Title:"Viral pharyngitis",
+                            Description:"Viral pharyngitis is a sore throat caused by a virus, and causes throat pain and cold-like symptoms.",
+                            Pref: "Viral pharyngitis is a sore throat caused by a virus, and causes throat pain and cold-like symptoms."
+                        },  
+                        "Influenza (flu) child": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7b8f&bpid[0]=2&sid[0]=102",
+                            Title:"Influenza (flu) child",
+                            Description:"The seasonal flu is a common viral infection that causes fever, body ache, headache, and congestion.",
+                            Pref: "The seasonal flu is a common viral infection that causes fever, body ache, headache, and congestion."
+                        },  
+                        "Acute sinusitis": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7c45&bpid[0]=2&sid[0]=102",
+                            Title:"Acute sinusitis",
+                            Description:"Acute sinusitis, an inflammation of the sinuses, causes sinus pain and tenderness, facial redness and more.",
+                            Pref: "Acute sinusitis, an inflammation of the sinuses, causes sinus pain and tenderness, facial redness and more."
+                        },
+                        "Influenza (flu) adults": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e81a5&bpid[0]=2&sid[0]=102",
+                            Title:"Influenza (flu) adults",
+                            Description:"The flu is a respiratory tract infection and causes fever, sore throat, runny nose, headache, cough, and more.​​​​",
+                            Pref: "The flu is a respiratory tract infection and causes fever, sore throat, runny nose, headache, cough, and more."
+                        },
+                        "Aseptic meningitis (adult)": {
+                                Cards : true,
+                                URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7c7c&bpid[0]=2&sid[0]=102",
+                                Title:"Aseptic meningitis (adult)",
+                                Description:"Aseptic meningitis, or viral meningitis, can cause fever, headaches, neck pain, nausea, and more.",
+                                Pref: "Aseptic meningitis, or viral meningitis, can cause fever, headaches, neck pain, nausea, and more."
+                        }
+                    }
+                 },  
+                 "Cough":{
+                    Cards : true,
+                    Title:"Cough", 
+                    Description:"please select one of the below",
+                    Items:{
+                        "Common cold": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e80ac&bpid[0]=10&sid[0]=59",
+                            Title:"Common cold",
+                            Description:"The common cold is a viral respiratory infection causing sore throat, stuffy or runny nose, headache and more.",
+                            Pref: "The common cold is a viral respiratory infection causing sore throat, stuffy or runny nose, headache and more."
+                        },  
+                        "Bronchitis": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e8083&bpid[0]=10&sid[0]=59",
+                            Title:"Bronchitis",
+                            Description:"Bronchitis, an inflammation of the bronchial tubes, causes cough, dark or yellow mucus, chest pain and more.",
+                            Pref: "Bronchitis, an inflammation of the bronchial tubes, causes cough, dark or yellow mucus, chest pain and more."
+                        },  
+                        "Acute sinusitis": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7c45&bpid[0]=2&sid[0]=102",
+                            Title:"Acute sinusitis",
+                            Description:"Acute sinusitis, an inflammation of the sinuses, causes sinus pain and tenderness, facial redness and more.",
+                            Pref: "Acute sinusitis, an inflammation of the sinuses, causes sinus pain and tenderness, facial redness and more."
+                        },
+                        "Asthma (teen and adult)": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7cc7&bpid[0]=10&sid[0]=59",
+                            Title:"Asthma (teen and adult)",
+                            Description:"Asthma is a lung condition that makes it hard to breathe, an asthma attack can be life threatening.​​​​",
+                            Pref: "Asthma is a lung condition that makes it hard to breathe, an asthma attack can be life threatening."
+                        },
+                        "Pneumonia": {
+                                Cards : true,
+                                URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7b26&bpid[0]=10&sid[0]=59",
+                                Title:"Pneumonia",
+                                Description:"Pneumonia is a lung infection and causes cough, shortness of breath, wheezing, chest pain, fever, and chills.",
+                                Pref: "Pneumonia is a lung infection and causes cough, shortness of breath, wheezing, chest pain, fever, and chills."
+                        }
+                    }
+                 }, 
+                 "Headache":{
+                    Cards : true,
+                    Title:"Headache", 
+                    Description:"please select one of the below",
+                    Items:{
+                        "Tension headache": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7bb9&bpid[0]=2&sid[0]=115",
+                            Title:"Tension headache",
+                            Description:"Tension headaches, caused by muscle tension, are marked by pain, pressure and tightness around the head.",
+                            Pref: "Tension headaches, caused by muscle tension, are marked by pain, pressure and tightness around the head."
+                        },  
+                        "Aseptic meningitis (adult)": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7c7c&bpid[0]=2&sid[0]=115",
+                            Title:"Aseptic meningitis (adult)",
+                            Description:"Aseptic meningitis, or viral meningitis, can cause fever, headaches, neck pain, nausea, and more.",
+                            Pref: "Aseptic meningitis, or viral meningitis, can cause fever, headaches, neck pain, nausea, and more."
+                        }, 
+                        "Aseptic meningitis (child)": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7cb0&bpid[0]=2&sid[0]=115",
+                            Title:"Aseptic meningitis (adult)",
+                            Description:"Aseptic meningitis, or viral meningitis, can cause fever, headaches, neck pain, nausea, and more.",
+                            Pref: "Aseptic meningitis, or viral meningitis, can cause fever, headaches, neck pain, nausea, and more."
+                        }, 
+                        "Sleep apnea": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7adc&bpid[0]=2&sid[0]=115",
+                            Title:"Sleep apnea",
+                            Description:"People with sleep apnea stop and restart breathing multiple times while sleeping.",
+                            Pref: "People with sleep apnea stop and restart breathing multiple times while sleeping."
+                        }, 
+                        "Postconcussive syndrome": {
+                            Cards : true,
+                            URL: "https://symptoms.webmd.com/coresc/landing?condition=091e9c5e808e7b79&bpid[0]=2&sid[0]=115",
+                            Title:"Postconcussive syndrome",
+                            Description:"Postconcussive syndrome occurs when the symptoms of a concussion or other brain injury continue to occur.",
+                            Pref: "Postconcussive syndrome occurs when the symptoms of a concussion or other brain injury continue to occur."
                         }
                     }
                  }, 
@@ -845,16 +1180,16 @@ var program = {
             //if(re.test(results.response))
              //   {
                     session.send("Please standby, I will get back to you in a few moments");
-                    dynamicsWebApi.retrieveAll("contacts", ["emailaddress1","firstname"], "statecode eq 0").then(function (response) {
+                    dynamicsWebApi.retrieveAll("contacts", ["new_singlepatientrecordid","firstname"], "statecode eq 0").then(function (response) {
                         var records = response.value;
-                        results.response = "someone50@contoso.com";
+                        //results.response = "someone50@contoso.com";
                         // session.send(JSON.stringify(response.value));
                         // session.send('%s' , JSON.stringify(records).toLowerCase().indexOf(results.response.toLowerCase()))
                         if(JSON.stringify(records).toLowerCase().indexOf(results.response.toLowerCase()) > 0 )
                         {
                             for (var i = 0; i < records.length; i++) {
                                 var element = records[i];
-                                if (element.emailaddress1 != null && element.emailaddress1.toLowerCase() == results.response.toLowerCase()) {
+                                if (element.new_singlepatientrecordid != null && element.new_singlepatientrecordid.toLowerCase() == results.response.toLowerCase()) {
                                     session.CRMResult = true;
                                     session.conversationData.isRegistered = true;
                                     session.conversationData.firstName = element.firstname;
@@ -867,8 +1202,9 @@ var program = {
                         }
                         else
                         {
-                            session.dialogData.email = results.response;
-                            session.beginDialog("CollectDataCRM",{Email:results.response}); 
+                            //session.send("SingleRecordNotFound");
+                            //session.dialogData.email = results.response;
+                            session.beginDialog("ExistingUser"); 
                         }
                     })
                     .catch(function (error){
@@ -1475,11 +1811,7 @@ var program = {
                 builder.Prompts.choice(session, "getSymptomsOptDynamic", checkSypmtomsOptionsList,{listStyle: builder.ListStyle.button});
             },
             function(session,results){
-                switch (session.dialogData.symptomName){
-                    case "Weight loss (unintentional)":
-                    session.replaceDialog("MedicalInformation", { symptomName: session.dialogData.symptomName, DisplayOptions : "Weight loss (unintentional)", ShowAll: "HeroCardsDialog" , NoOption:"CreditCard" , YesOption:"CollectInformationCRM" });
-                    break;
-                }
+                session.replaceDialog("MedicalInformation", { symptomName: session.dialogData.symptomName, DisplayOptions : session.dialogData.symptomName, ShowAll: "HeroCardsDialog" , NoOption:"CreditCard" , YesOption:"CollectInformationCRM" });
                 /*if (results.response.index == 0) {
                    //credit cards dialog
                    session.replaceDialog("MedicalInformation", { symptomName: session.dialogData.symptomName, DisplayOptions : "Available Credit Cards", ShowAll: "HeroCardsDialog" , NoOption:"CreditCard" , YesOption:"CollectInformationCRM" });
@@ -1568,7 +1900,7 @@ var program = {
                         attachments.push(
                              new builder.HeroCard(session)
                             .title(result.Items[i].Name)
-                            .text(result.Items[i].TimeSlots + "\n\n Location: " + result.Items[i].Location)
+                            .text(result.Items[i].TimeSlots +"\n\n Speciality: " + result.Items[i].Speciality + "\n\n Location: " + result.Items[i].Location)
                             .images([builder.CardImage.create(session, result.Items[i].Image)])
                             .buttons([
                                 builder.CardAction.imBack(session, result.Items[i].Name, txt)
@@ -1626,6 +1958,8 @@ var program = {
                 builder.Prompts.text(session, "getTimeSlotSelected");  
             },
             function(session,results){
+                session.conversationData.patientEmail = results.response;
+                builder.Prompts.text(session, "getFinalAppointment");  
             }
         ]);
 
