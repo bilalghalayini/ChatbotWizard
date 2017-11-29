@@ -42,7 +42,7 @@
     "getOtherOptionsAfterSymptoms" : "Can I help you with anything else today?",
     "thanksForSubmission" : "Thanks! We have sent your appointment info to your email.",
     "getPatientSummary":"Thanks!\n\nPlease check below appointment details one last time, and then confirm if you would like to proceed with the booking.\n\n\n\nDoctor: %s\n\nLocation: %s\n\nTime: %s\n\nComments: %s",
-    "getFinalAppointment" : "Thanks, please leave any final comments for your doctor.\n\nYou can type your comments below, or you can press the Record button to record a voice message which your doctor will receive.",
+    "getFinalAppointment" : "Thanks, please leave any final comments for your doctor.\n\nYou can type your comments below.",
     "getTimeSlotSelected" : "Thank you for your choice.\n\nPlease give me your email so we can send you your appointment information.",
     "getServicesDynamic" : "Please select any of the below services to better serve you.",
     "getSymptomsDynamic" : "I’m sorry you’re feeling unhealthy today, please tell me which of the below options best describes your symptoms:",
