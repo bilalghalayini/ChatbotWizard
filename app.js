@@ -44,21 +44,21 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 });
 
 // Create chat connector for communicating with the Bot Framework Service
-var connector = new builder.ChatConnector({
-    appId:"cc265d67-7a8d-4416-afdc-2ad2faf81403",// process.env.MICROSOFT_APP_ID,
-    appPassword:"qsPJZC398#hkyzxKBS96%+!"// process.env.MICROSOFT_APP_PASSWORD
-});
-
-//local usage
+//Local usage
 /*var connector = new builder.ChatConnector({
     appId:"b605dcfd-2ec1-4ffd-86a3-5698febbeaf1",// process.env.MICROSOFT_APP_ID,
     appPassword:"vszZWtRjM7wbrXtmyBCu8EW"// process.env.MICROSOFT_APP_PASSWORD
 });*/
 
-/*var connectorCreditCard = new builder.ChatConnector({
+var connector = new builder.ChatConnector({
+    appId:"cc265d67-7a8d-4416-afdc-2ad2faf81403",// process.env.MICROSOFT_APP_ID,
+    appPassword:"qsPJZC398#hkyzxKBS96%+!"// process.env.MICROSOFT_APP_PASSWORD
+});
+
+var connectorCreditCard = new builder.ChatConnector({
     appId:"11244d52-2ed6-46e8-a604-2d8e1b123a62",
     appPassword:"KRZUN2jpzt4ZvRR5q7sNwq9"
-});*/
+});
 
 var connectorLoan = new builder.ChatConnector({
     appId:"fba8910b-8a76-4463-8010-4e606a6f6d35",
