@@ -45,8 +45,8 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 
 // Create chat connector for communicating with the Bot Framework Service
 var connector = new builder.ChatConnector({
-    appId:"b605dcfd-2ec1-4ffd-86a3-5698febbeaf1",// process.env.MICROSOFT_APP_ID,
-    appPassword:"vszZWtRjM7wbrXtmyBCu8EW"// process.env.MICROSOFT_APP_PASSWORD
+    appId:"cc265d67-7a8d-4416-afdc-2ad2faf81403",// process.env.MICROSOFT_APP_ID,
+    appPassword:"qsPJZC398#hkyzxKBS96%+!"// process.env.MICROSOFT_APP_PASSWORD
 });
 
 var connectorCreditCard = new builder.ChatConnector({
@@ -135,30 +135,8 @@ var intents = new builder.IntentDialog({ recognizers: [
         };
     })
 })
-.matches('CreditCardStartRecog',(session, args) => {
-    // session.send("%s",session.conversationData.lang);
-    var locale =session.conversationData.lang;
-    session.preferredLocale(locale,function(err){
-        if(!err){
-            // session.send("welcomeText");
-            session.beginDialog("HeroCardsDialog", { DisplayOptions : "Available Credit Cards", ShowAll: "HeroCardsDialog" , NoOption:"CreditCard" , YesOption:"CollectInformationCRM" });
-        };
-    })
-})
-.matches('LoanStartRecog',(session, args) => {
-    // session.send("Loan");
-    // session.send("%s",session.conversationData.lang);
-    // session.send("%s",session.preferredLocale());
-    var locale =session.conversationData.lang;
-    session.conversationData.lang = "en";
-    session.preferredLocale(locale,function(err){
-        if(!err){
-            // session.send("welcomeText");
-            session.beginDialog("HeroCardsDialog", { DisplayOptions : "Available Loan Options", ShowAll: "HeroCardsDialog" , NoOption:"LoanOffers" , YesOption:"CollectInformationCRM" });
-        };
-    })
-    
-})
+
+
 .matches('EnglishArabic',(session, args) => {
     // session.send("%s", session.conversationData.isCreditCardStart)
    
@@ -286,26 +264,7 @@ var program = {
                 "ساكن":{Description:"ساكن"}
             }
         },
-        AnyOtherThing:{
-            en:{
-                "Yes":{Description:"Yes"},
-                "No, Back to main":{Description:"No, Back to main"}
-            },
-            ar:{
-                "نعم":{Description:"نعم"},
-                "لا, الرجوع للقايمه الريئسيه":{Description:"لا, الرجوع للقايمه الريئسيه"}
-            }
-        },
-        EndofService:{
-            en:{
-               "Return to Main Menu":{Description:"Return to Main Menu"},
-                "No Thanks":{Description:"No Thanks"},
-            },
-            ar:{
-               "رجوع للقائمه الرئيسيه":{Description:"رجوع للقائمه الرئيسيه"},
-                "لا شكرا":{Description:"لا شكرا"},
-            }
-        },
+
         NotValidUser:{
             en:{
                 "Call Us":{Description:"Call Us"},
@@ -388,56 +347,6 @@ var program = {
                 "المزيد":{Description:"نعم"},
                 "لا":{Description:"لا"},
                 "إظهر الكل":{Description:"إظهر الكل"}
-            }
-        },
-        Services:{
-            en:{
-                "Check Symptoms":{Description:"Check Symptoms"},
-                "Check My Health Calendar":{Description:"Check My Health Calendar"},
-                "Find a Doctor":{Description:"Find a Doctor"},
-                "Submit Complaint":{Description:"Submit Complaint"},
-            },
-            ar:{
-                "حساب شخصي":{Description:"حساب شخصي"},
-                "حساب شركه":{Description:"حساب شركه"},
-                "حساب خاص":{Description:"حساب خاص"},
-                "تقديم طلب":{Description:"تقديم طلب"},
-            }
-        },
-        CreditCardServices:{
-            en:{
-                "View all available Credit Card Offers":{Description:"View all available Credit Card Offers"},
-                "Ask about Frequent Flier Miles offer":{Description:"Ask about Frequent Flier Miles offer"},
-                "Back":{Description:"Back"},
-            },
-            ar:{
-                "عرض بطاقات الإئتمان المتاحه":{Description:"عرض بطاقات الإئتمان المتاحه"},
-                "عروض الماتحه":{Description:"عروض الماتحه"},
-                "الرجوع":{Description:"الرجوع"},
-            }
-        },
-        CreditCardServicesStart:{
-            en:{
-                "View all available Credit Card Offers":{Description:"View all available Credit Card Offers"},
-                "Main Menu":{Description:"Main Menu"},
-                "Change Language | تغيير اللغه":{Description:"Change Language| تغيير اللغه"},
-            },
-            ar:{
-                "عرض بطاقات الإئتمان المتاحه":{Description:"عرض بطاقات الإئتمان المتاحه"},
-                "القائمه الرئيسيه":{Description:"القائمه الرئيسيه"},
-                "Change Language | تغيير اللغه":{Description:"Change Language| تغيير اللغه"},
-            }
-        },
-        LoanServicesStart:{
-            en:{
-                "View all available Loans":{Description:"View all available Loans"},
-                "Main Menu":{Description:"Main Menu"},
-                "Change Language | تغيير اللغه":{Description:"Change Language| تغيير اللغه"},
-            },
-            ar:{
-                "عرض القروض المتاحه":{Description:"عرض القروض المتاحه"},
-                "القائمه الرئيسيه":{Description:"القائمه الرئيسيه"},
-                "Change Language | تغيير اللغه":{Description:"Change Language| تغيير اللغه"},
             }
         },
         OtherOptionsAfterSymptomsChoiceServices :{
