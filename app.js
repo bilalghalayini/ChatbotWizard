@@ -1213,11 +1213,6 @@ var program = {
                 }
             },
             function(session,results){
-            //    session.conversationData.userType = results.response.entity;
-
-            //var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            //if(re.test(results.response))
-             //   {
                     session.send("Please standby, I will get back to you in a few moments");
                     dynamicsWebApi.retrieveAll("contacts", ["new_singlepatientrecordid","firstname"], "statecode eq 0").then(function (response) {
                         var records = response.value;
@@ -1249,21 +1244,6 @@ var program = {
                     .catch(function (error){
                         session.send(JSON.stringify( error));
                     });
-               // }
-           // else
-               // session.replaceDialog('ExistingUser', { reprompt: true });
-
-
-               /* if(results.response.index == 1)
-                {
-                    session.conversationData.isRegistered = false;
-                    session.replaceDialog("Services");
-                }
-                else
-                {
-                    session.conversationData.isRegistered = true;
-                    session.replaceDialog("ValidateUser"); 
-                }*/
             },
                function (session,results) {
                    if (results.response.index == 0) {
@@ -1812,8 +1792,8 @@ var program = {
                 }
                 else if(results.response.index == 3)
                 {
-                    // session.send("1. Sorry, I’m still “Under Development” and learning about this section");
-                    session.replaceDialog("CollectInformationCRM" , {RequestType : "Inquiry"});
+                    session.send("Sorry, I’m still “Under Development” and learning about this section");
+                    session.replaceDialog("Services");
                 }
             }
         ]);
