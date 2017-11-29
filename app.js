@@ -230,18 +230,39 @@ var intents = new builder.IntentDialog({ recognizers: [
     }
 });
 
-
+function CreateContact(contact,crmCase, appointment){
+    
+      dynamicsWebApi.create(contact, "contacts").then(function (response) {
+          
+         var contactId = response;
+         crmCase["customerid_contact@odata.bind"] = "https://advancyaad.crm4.dynamics.com/api/data/v8.2/contacts("+contactId+")";
+         crmCase["new_useremail"] = contact.emailaddress1;
+         crmCase["new_crmstatus"] = 100000000;
+         CreateCase(contact,crmCase, appointment);
+  
+      })
+      .catch(function (error){
+          console.log(error);
+      });
+  }
+  function CreateCase(contact,crmCase, appointment){
+      dynamicsWebApi.create(crmCase, "incidents").then(function (response) {
+        var incidentId = response;
+      })
+      .catch(function (error){
+      });
+  }
 var program = {
     Constants:{
         questionsBeforeInvest : 5,
         questionBeforeGenericHelp : 3,
         EmailTemplate : {
             Content:{
-                en:"Dear {{user}} <br/> Thanks alot for your interest in AdvancaBank, our team will study your inquiry and will get back to you as soon as possible <br/><table border=1><tr><td>Mobile</td><td>{{mobile}}</td></tr><tr><td>Type</td><td>{{property}}</td></tr><tr><td>Comment</td><td>{{comment}}</td></tr></table><br/>Regards,<br/>AdvancaBank Team",
+                en:"Dear {{firstname}}, <br/> Please find below your appointment information <br/><table border=1><tr><td>Doctor Name</td><td>{{doctorName}}</td></tr><tr><td>Location</td><td>{{location}}</td></tr><tr><td>Time Slot</td><td>{{patientTimeSlot}}</td></tr><tr><td>Comment</td><td>{{patientComments}}</td></tr></table><br/>Regards,<br/>Tasmu",
                 ar:"<div style='direction:rtl'> عزيزي {{user}} <br/> شكراً على اهتمامك بعقارات الشركه المتحده، سوف نقوم بدراسة طلبك والرد عليك بأقرب فرصة ممكنة <br/><br/><table border=1><tr><td>رقم جوالك</td><td>{{mobile}}</td></tr><tr><td>اهتماماتك</td><td>{{property}}</td></tr><tr><td>الاستعلام عنه</td><td>{{comment}}</td></tr></table><br/> مع تحيات فريق عمل الشركه المتحده</div>"
             },
             Subject:{
-                en:"Thank you for contacting AdvancaBank",
+                en:"Thank you for submitting an appointment",
                 ar:"شكراً من الشركه المتحده"
             }
         },
@@ -343,6 +364,18 @@ var program = {
                 "المزيد":{Description:"نعم"},
                 "لا":{Description:"لا"},
                 "إظهر الكل":{Description:"إظهر الكل"}
+            }
+        },
+        patientSummaryOptions:{
+            en:{
+                "Confirm":{Description:"Confirm"},
+                "Modify":{Description:"Modify"},
+            },
+            ar:{
+                "حساب شخصي":{Description:"حساب شخصي"},
+                "حساب شركه":{Description:"حساب شركه"},
+                "حساب خاص":{Description:"حساب خاص"},
+                "تقديم طلب":{Description:"تقديم طلب"},
             }
         },
         PropertyInterest:{
@@ -568,7 +601,7 @@ var program = {
                     Items:{
                         "Dr. Brian Adam": {
                             Cards : true,
-                            Image: "http://tasmu.advancya.com/images/Doctor 01.jpg",
+                            Image: "http://tasmu.advancya.com/images/Doctor%2003.jpg",
                             Symptoms: "Joint Pain",
                             Location: "Doha Clinic",
                             Speciality: "General Medicine",
@@ -576,14 +609,14 @@ var program = {
                             Name:"Dr. Brian Adam",
                             Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
                         },  
-                        "Dr. Linda Feldman": {
+                        "Dr. Nicholas Fleming": {
                             Cards : true,
-                            Image: "http://tasmu.advancya.com/images/Doctor 02.jpg",
+                            Image: "http://tasmu.advancya.com/images/Doctor%2004.jpg",
                             Symptoms: "Joint Pain",
                             Location: "Emadi Hospital",
                             Speciality: "General Medicine",
                             TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
-                            Name:"Dr. Linda Feldman",
+                            Name:"Dr. Nicholas Fleming",
                             Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
                         }, 
                     }
@@ -603,14 +636,14 @@ var program = {
                             Name:"Dr. Brian Adam",
                             Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
                         },  
-                        "Dr. Linda Feldman": {
+                        "Dr. Nicholas Fleming": {
                             Cards : true,
                             Image: "http://tasmu.advancya.com/images/Doctor%2004.jpg",
                             Symptoms: "Cough",
                             Location: "Emadi Hospital",
                             Speciality: "General Medicine",
                             TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
-                            Name:"Dr. Linda Feldman",
+                            Name:"Dr. Nicholas Fleming",
                             Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
                         }, 
                     }
@@ -620,14 +653,14 @@ var program = {
                     Title:"Doctor-Fever", 
                     Description:"please select one of the below",
                     Items:{
-                        "Dr. Brian Adam": {
+                        "Dr. Nicholas Fleming": {
                             Cards : true,
                             Image: "http://tasmu.advancya.com/images/Doctor%2005.jpg",
                             Symptoms: "Fever",
                             Location: "Apollo Clinic",
                             Speciality: "Rheumatology",
                             TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
-                            Name:"Dr. Brian Adam",
+                            Name:"Dr. Nicholas Fleming",
                             Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
                         },  
                         "Dr. Jessica Tailor": {
@@ -647,14 +680,14 @@ var program = {
                     Title:"Doctor-Headache", 
                     Description:"please select one of the below",
                     Items:{
-                        "Dr. Brian Adam": {
+                        "Dr. Nicholas Fleming": {
                             Cards : true,
                             Image: "http://tasmu.advancya.com/images/Doctor%2005.jpg",
                             Symptoms: "Headache",
                             Location: "Apollo Clinic",
                             Speciality: "Rheumatology",
                             TimeSlots: "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY") + "\n\n 10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY") + "\n\n 12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY"),
-                            Name:"Dr. Brian Adam",
+                            Name:"Dr. Nicholas Fleming",
                             Pref: "Thank you for your selection, please let me know which of the below time slots are suitable for you."
                         },  
                         "Dr. Jessica Tailor": {
@@ -1811,23 +1844,14 @@ var program = {
                 builder.Prompts.choice(session, "getSymptomsOptDynamic", checkSypmtomsOptionsList,{listStyle: builder.ListStyle.button});
             },
             function(session,results){
+                if (results.response.index == 0) {
                 session.replaceDialog("MedicalInformation", { symptomName: session.dialogData.symptomName, DisplayOptions : session.dialogData.symptomName, ShowAll: "HeroCardsDialog" , NoOption:"CreditCard" , YesOption:"CollectInformationCRM" });
-                /*if (results.response.index == 0) {
-                   //credit cards dialog
-                   session.replaceDialog("MedicalInformation", { symptomName: session.dialogData.symptomName, DisplayOptions : "Available Credit Cards", ShowAll: "HeroCardsDialog" , NoOption:"CreditCard" , YesOption:"CollectInformationCRM" });
                 }
                 else if(results.response.index == 1)
                 {
-                    session.replaceDialog("MedicalInformation", { symptomName : session.dialogData.symptomName});
+                    session.send("bookAppointment");
+                    session.replaceDialog("SelectDoctorAppointment", {  DisplayOptions : "Doctor-" + session.dialogData.symptomName, ShowAll: "HeroCardsDialog" , NoOption:"CreditCard" , YesOption:"CollectInformationCRM" });
                 }
-                else if(results.response.index == 2)
-                {
-                    session.replaceDialog("MedicalInformation", { symptomName : session.dialogData.symptomName});
-                }
-                else if(results.response.index == 3)
-                {
-                    session.replaceDialog("MedicalInformation", { symptomName : session.dialogData.symptomName});
-                }*/
             }
         ]);  
         varBot.dialog("MedicalInformation",[
@@ -1916,7 +1940,8 @@ var program = {
                 var item = session.dialogData.item.Items[results.response.entity];
                 if(item.Cards)
                 {
-                    
+                    session.conversationData.doctorName = item.Name;
+                    session.conversationData.location = item.Location;
                     var msg = new builder.Message(session);
                     var TimeSlots = program.Helpers.GetOptions(program.Options.TimeSlots,session.preferredLocale());
                     session.conversationData.InternetedProduct = item.Title;
@@ -1943,7 +1968,7 @@ var program = {
                 }
             },
              function(session,results){
-                session.replaceDialog("TimeSlotSelected");
+                session.replaceDialog("TimeSlotSelected", results);
               //  if(results.response.index == 0) 
                //     session.replaceDialog(session.dialogData.YesOption, {RequestType : ""});
              //   else if(results.response.index == 1)
@@ -1955,7 +1980,18 @@ var program = {
 
         varBot.dialog("TimeSlotSelected",[
             function(session, results){
-                console.log(results);
+                switch (results.response.entity){
+                    case "TimeSlot1":
+                    session.conversationData.patientTimeSlot = "8:00AM - 10:00AM " + moment(new Date()).add(1, 'days').format("DD/MM/YYYY");
+                    break;
+                    case "TimeSlot2":
+                    session.conversationData.patientTimeSlot = "10:00AM - 12:00PM " + moment(new Date()).add(2, 'days').format("DD/MM/YYYY");
+                    break;
+                    case "TimeSlot2":
+                    session.conversationData.patientTimeSlot = "12:00PM - 2:00PM " + moment(new Date()).add(3, 'days').format("DD/MM/YYYY");
+                    break;  
+                }
+                //session.conversationData.patientTimeSlot = results.response.entity;
                 builder.Prompts.text(session, "getTimeSlotSelected");  
             },
             function(session,results){
@@ -1965,7 +2001,44 @@ var program = {
             ,
             function(session,results){
                 session.conversationData.patientComments = results.response;
-                builder.Prompts.text(session, "getFinalAppointmentComments");  
+                session.send("getPatientSummary",session.conversationData.doctorName ,session.conversationData.location ,session.conversationData.patientTimeSlot ,session.conversationData.patientComments)
+                var patientSummaryList = program.Helpers.GetOptions(program.Options.patientSummaryOptions,session.preferredLocale());
+                builder.Prompts.choice(session, "&nbsp;", patientSummaryList,{listStyle: builder.ListStyle.button});
+           
+            },
+            function (session, results){
+                if (results.response.index == 0) {
+                    program.Helpers.SendEmail({
+                        firstname:session.conversationData.firstName,
+                        email:session.conversationData.patientEmail,
+                        doctorName : session.conversationData.doctorName,
+                        location : session.conversationData.location,
+                        patientTimeSlot : session.conversationData.patientTimeSlot,
+                        patientComments : session.conversationData.patientComments,
+                    },session.preferredLocale());
+                    session.send("thanksForSubmission");
+                    session.conversationData.applicationSubmitted = true;
+                    
+                    var contact = {
+                        firstname: session.conversationData.firstName,
+                        emailaddress1: session.conversationData.patientEmail,
+                    };
+                
+                    var crmCase = {
+                        title: "Appointment with "+ session.conversationData.doctorName,
+                        description: "Doctor: " + session.conversationData.doctorName+"\n\nLocation: " + session.conversationData.location + "\n\nTime Slot: " + session.conversationData.patientTimeSlot + "\n\nComments: " +  session.conversationData.patientComments,
+                    };
+                    var appointment = {
+                        subject: "Appointment with "+ session.conversationData.doctorName,
+                    };
+                
+                    CreateContact(contact,crmCase, appointment);
+                }
+                else if(results.response.index == 1)
+                {
+                    session.send("bookAppointment");
+                    session.replaceDialog("SelectDoctorAppointment", {  DisplayOptions : "Doctor-" + session.conversationData.symptomName, ShowAll: "HeroCardsDialog" , NoOption:"CreditCard" , YesOption:"CollectInformationCRM" });
+                }
             }
         ]);
 
@@ -2310,13 +2383,11 @@ var program = {
         SendEmail : function(data,locale){
             var html = program.Constants.EmailTemplate.Content[locale];
             var subject = program.Constants.EmailTemplate.Subject[locale];
-            html = html.replace("{{user}}",data.user);
-            html = html.replace("{{mobile}}",data.mobile);
-            html = html.replace("{{property}}",data.property);
-            // html = html.replace("{{sector}}",data.sector);
-            // html = html.replace("{{operation}}",data.operation);
-            // html = html.replace("{{heard}}",data.heard);
-            html = html.replace("{{comment}}",data.comment);
+            html = html.replace("{{firstname}}",data.firstname);
+            html = html.replace("{{doctorName}}",data.doctorName);
+            html = html.replace("{{location}}",data.location);
+            html = html.replace("{{patientTimeSlot}}",data.patientTimeSlot);
+            html = html.replace("{{patientComments}}",data.patientComments);
             var transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
