@@ -49,10 +49,11 @@ var connector = new builder.ChatConnector({
     appPassword:"qsPJZC398#hkyzxKBS96%+!"// process.env.MICROSOFT_APP_PASSWORD
 });
 
-var connector = new builder.ChatConnector({
+//local usage
+/*var connector = new builder.ChatConnector({
     appId:"b605dcfd-2ec1-4ffd-86a3-5698febbeaf1",// process.env.MICROSOFT_APP_ID,
     appPassword:"vszZWtRjM7wbrXtmyBCu8EW"// process.env.MICROSOFT_APP_PASSWORD
-});
+});*/
 
 /*var connectorCreditCard = new builder.ChatConnector({
     appId:"11244d52-2ed6-46e8-a604-2d8e1b123a62",
