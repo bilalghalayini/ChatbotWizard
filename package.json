@@ -1,5 +1,5 @@
 {
-  "name": "tasmuchatbot",
+  "name": "chatbotwizard",
   "version": "1.0.0",
   "description": "for bank presentations",
   "main": "index.js",
@@ -8,17 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bilalghalayini/Tasmu-Chatbot.git"
+    "url": "git+https://github.com/bilalghalayini/ChatbotWizard.git"
   },
   "keywords": [
-    "tasmuchatbot"
+    "chatbotwizard"
   ],
   "author": "Bilal Ghalayini",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/bilalghalayini/Tasmu-Chatbot/issues"
+    "url": "https://github.com/bilalghalayini/ChatbotWizard/issues"
   },
-  "homepage": "https://github.com/bilalghalayini/Tasmu-Chatbot#readme",
+  "homepage": "https://github.com/bilalghalayini/ChatbotWizard#readme",
   "dependencies": {
     "adal-node": "^0.1.22",
     "botbuilder": "^3.9.1",
@@ -29,7 +29,10 @@
     "moment": "^2.19.2",
     "nodemailer": "^4.0.1",
     "q": "^1.5.0",
-    "restify": "^5.2.0",
+    "request": "^2.83.0",
+    "requestify": "^0.2.5",
+    "restify": "^5.2.1",
+    "restify-clients": "^1.5.2",
     "restify-plugins": "^1.6.0",
     "url": "^0.11.0"
   }
