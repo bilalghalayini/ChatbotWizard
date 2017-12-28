@@ -336,7 +336,6 @@ var program = {
                 var heroFoundActions = false;
             varBot.dialog(DialogName,[
                 function(session){
-
                     var msg = new builder.Message(session);
                     msg.attachmentLayout(builder.AttachmentLayout.carousel);
                     var attachments = [];
@@ -350,10 +349,17 @@ var program = {
                         HeroCardImage = heroOptions[i].heroCardImage;
                         for (var j=0; j<actions.length; j++){
                             if (actions[j].parentIndex == i){
-                                actionButtons += "parentIndex:" + actions[j].parentIndex + ";" +  actions[j].optionTitle + "|";
-                                    buttons.push(
+                                actionButtons += "parentIndex:" + actions[j].parentIndex + ";index:" + actions[j].index +";" +  actions[j].optionTitle + "|";
+                                if  (actions[j].type != "Link") {
+                                buttons.push(
                                         builder.CardAction.imBack(session, actions[j].optionTitle, actions[j].optionTitle)
                                     );
+                                }
+                                else{
+                                    buttons.push(
+                                        builder.CardAction.openUrl(session, actions[j].text , actions[j].optionTitle)
+                                    ); 
+                                }
 
                             }
                         }
@@ -388,7 +394,10 @@ var program = {
                     for (var j=0; j<options.actions.length; j++){
                         var parentIndex = results.response.entity.split(";");
                         parentIndex = parentIndex[0].split("parentIndex:")[1];
-                        if (results.response.index == options.actions[j].index && parentIndex == options.actions[j].parentIndex){
+                        var index = results.response.entity.split(";");
+                        index = index[1].split("index:")[1];
+
+                        if (index== options.actions[j].index && parentIndex == options.actions[j].parentIndex){
                         switch (options.actions[j].type){
                             case "dialog":
                             var dialogName = options.actions[j].dialogName;
