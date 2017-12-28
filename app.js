@@ -52,10 +52,10 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
     appId:"b605dcfd-2ec1-4ffd-86a3-5698febbeaf1",// process.env.MICROSOFT_APP_ID,
     appPassword:"vszZWtRjM7wbrXtmyBCu8EW"// process.env.MICROSOFT_APP_PASSWORD
 });*/
-
+var initialDialog = "";
 var connector = new builder.ChatConnector({
-    appId:"cc265d67-7a8d-4416-afdc-2ad2faf81403",// process.env.MICROSOFT_APP_ID,
-    appPassword:"qsPJZC398#hkyzxKBS96%+!"// process.env.MICROSOFT_APP_PASSWORD
+    appId:"e58dba73-bea7-4700-a265-728c974124e3",// process.env.MICROSOFT_APP_ID,
+    appPassword:"P3eoTO=jLn4kB(oj"// process.env.MICROSOFT_APP_PASSWORD
 });
 
 var connectorCreditCard = new builder.ChatConnector({
@@ -316,50 +316,142 @@ var program = {
         var mainCounter = 0;
         var dialogCounters = [];
         var responses = [];
+       
           requestify.get('http://localhost/ChatbotWizardAPI/api/Dialogs/Get').then(function(response) {
             // Get the response body
             var response = response.getBody();
             for (var i=0; i<response.length; i++){
-                
             var DialogTypeId = response[i].DialogTypeId;
             var DialogName = response[i].DialogName;
-            
-           
+            var IsFirstDialog = response[i].IsFirstDialog;
+                if (IsFirstDialog)
+                initialDialog = DialogName;
             switch (DialogTypeId){
                 case "33700895-5218-4E32-8AA2-ED059DEDE8B0": //HeroCard Type
-                var options = JSON.parse(response[i]["DialogOptions"]);
                 dialogCounters[i] = DialogName;
-            var HeroCardImage = options.images;
-            var HeroCardTitle = options.title;
-            var HeroCardText = options.text;
-            var ActionDialog = options.actionDialog;
+                var options = JSON.parse(response[i]["DialogOptions"]);
+                var heroOptions = JSON.parse(response[i]["DialogOptions"]).heroOptions;
+                var actions = JSON.parse(response[i]["DialogOptions"]).actions;
+                dialogCounters[i] = DialogName;
+                var heroFoundActions = false;
             varBot.dialog(DialogName,[
                 function(session){
+
                     var msg = new builder.Message(session);
                     msg.attachmentLayout(builder.AttachmentLayout.carousel);
-                    var txt = session.localizer.gettext("en","selectYourLanguage");
-                    msg.attachments([
-                    new builder.HeroCard(session)
-                        .title(HeroCardTitle)
-                        .text(HeroCardText)
-                        .images([builder.CardImage.create(session, HeroCardImage)])
-                        .buttons([
-                            builder.CardAction.imBack(session, "English", "English"),
-                            builder.CardAction.imBack(session, "العربية", "العربية"),
-                        ])
-                    ]);
-                    builder.Prompts.choice(session, msg, "العربية|English");
+                    var attachments = [];
+                    var buttons = [];
+                    var actionButtons = "";
+                    for (var i=0; i<heroOptions.length; i++){
+                        buttons = [];
+                        heroFoundActions = false;
+                        HeroCardTitle = heroOptions[i].heroCardTitle;
+                        HeroCardText = heroOptions[i].heroCardDescription;
+                        HeroCardImage = heroOptions[i].heroCardImage;
+                        for (var j=0; j<actions.length; j++){
+                            if (actions[j].parentIndex == i){
+                                actionButtons += "parentIndex:" + actions[j].parentIndex + ";" +  actions[j].optionTitle + "|";
+                                    buttons.push(
+                                        builder.CardAction.imBack(session, actions[j].optionTitle, actions[j].optionTitle)
+                                    );
+
+                            }
+                        }
+                        attachments.push(
+                            new builder.HeroCard(session)
+                            .title(HeroCardTitle)
+                            .text(HeroCardText)
+                            .images([builder.CardImage.create(session, HeroCardImage)])
+                            .buttons(buttons)
+                        )
+                    }
+                    msg.attachments(attachments);
+                    actionButtons = actionButtons.substring(0, actionButtons.length - 1)
+
+                    builder.Prompts.choice(session, msg, actionButtons ,{listStyle: builder.ListStyle.button});
+                    session.conversationData.dialogName = session.dialogStack()[0].id.replace("*:","");
+                    mainCounter = dialogCounters.indexOf(session.conversationData.dialogName);
+
                 }
                 ,
                 function(session,results){
-                   session.replaceDialog(ActionDialog);
-                },
-                function (session,results) {
-                },
-                   function (session,results) {
-                },
-                function (session,results) {
-                } 
+
+                    responses.push({
+                        dialogName : session.conversationData.dialogName,
+                        result : results.response.entity.split(";")[1]
+                    });
+
+                    mainCounter = dialogCounters.indexOf(session.conversationData.dialogName);
+                    var options = JSON.parse(response[mainCounter]["DialogOptions"]);
+                    var DialogTypeId = response[mainCounter].DialogTypeId;
+                    var DialogName = response[mainCounter].DialogName;
+                    for (var j=0; j<options.actions.length; j++){
+                        var parentIndex = results.response.entity.split(";");
+                        parentIndex = parentIndex[0].split("parentIndex:")[1];
+                        if (results.response.index == options.actions[j].index && parentIndex == options.actions[j].parentIndex){
+                        switch (options.actions[j].type){
+                            case "dialog":
+                            var dialogName = options.actions[j].dialogName;
+                            session.replaceDialog(dialogName); 
+                            break;
+                            case "send":
+                            var text = options.actions[j].text;
+                            session.send(text);
+                            case "Dialog":
+                            var dialogName = options.actions[j].dialogName;
+                            session.replaceDialog(dialogName); 
+                            break;
+                            case "Send":
+                            var text = options.actions[j].text;
+                            session.send(text);
+                        break;
+                        }
+
+                    }
+                }
+                try{
+                if (options.options.sendEmail){
+                    options = options.options;
+                    
+                    var to = options.email.to;
+                    var html = options.email.body;
+                    for (var i=0; i<responses.length; i++){
+                        to = to.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
+                        html = html.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
+                    }
+                    console.log(to);
+                    /*html = html.replace("{{firstname}}",data.firstname);
+                    html = html.replace("{{doctorName}}",data.doctorName);
+                    html = html.replace("{{location}}",data.location);
+                    html = html.replace("{{patientTimeSlot}}",data.patientTimeSlot);
+                    html = html.replace("{{patientComments}}",data.patientComments);*/
+                    var transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                            user: 'rattazataom@gmail.com',
+                            pass: '!!xuloloL'
+                        }
+                    });
+                    var mailOptions = {
+                        from: 'rattazataom@gmail.com',
+                        to: to,
+                        subject: options.email.subject,
+                        html: html,
+                        
+                    };
+                    transporter.sendMail(mailOptions, function(error, info){
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                    }
+                    });
+                }
+            }
+            catch(ex){
+
+            }
+                }
                 
             ]);
             break;
@@ -394,19 +486,29 @@ var program = {
                             case "send":
                             var text = options.actions[j].text;
                             session.send(text);
+                            case "Dialog":
+                            var dialogName = options.actions[j].dialogName;
+                            session.replaceDialog(dialogName); 
+                            break;
+                            case "Send":
+                            var text = options.actions[j].text;
+                            session.send(text);
                         break;
                         }
 
                     }
                 }
+                try{
                 if (options.options.sendEmail){
+                    options = options.options;
+                    
                     var to = options.email.to;
                     var html = options.email.body;
                     for (var i=0; i<responses.length; i++){
                         to = to.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
                         html = html.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
                     }
-                    
+                    console.log(to);
                     /*html = html.replace("{{firstname}}",data.firstname);
                     html = html.replace("{{doctorName}}",data.doctorName);
                     html = html.replace("{{location}}",data.location);
@@ -434,6 +536,10 @@ var program = {
                     }
                     });
                 }
+            }
+            catch(ex){
+
+            }
                 }
             ]);
             break;
@@ -454,11 +560,36 @@ var program = {
                         result : results.response
                     });
                     mainCounter = dialogCounters.indexOf(session.conversationData.dialogName);
+                    var resultResponse = results.response;
+
                     var options = JSON.parse(response[mainCounter]["DialogOptions"]);
                     var DialogTypeId = response[mainCounter].DialogTypeId;
                     var DialogName = response[mainCounter].DialogName;
-                    var resultResponse = results.response;
+
+                    for (var j=0; j<options.actions.length; j++){
+                        switch (options.actions[j].type){
+                            case "dialog":
+                            var dialogName = options.actions[j].dialogName;
+                            session.replaceDialog(dialogName); 
+                            break;
+                            case "send":
+                            var text = options.actions[j].text;
+                            session.send(text);
+                            case "Dialog":
+                            var dialogName = options.actions[j].dialogName;
+                            session.replaceDialog(dialogName); 
+                            break;
+                            case "Send":
+                            var text = options.actions[j].text;
+                            session.send(text);
+                        break;
+                        }
+
+                }
+
+                try{
                     if (options.options.sendEmail){
+                        options = options.options;
                         var to = options.email.to;
                         var html = options.email.body;
                         for (var i=0; i<responses.length; i++){
@@ -493,7 +624,10 @@ var program = {
                         }
                         });
                     }
-                    return false; 
+                }
+                catch(ex){
+
+                }
                 }
             ]);
             break;
@@ -557,13 +691,23 @@ program.Init();
 
 
 bot.on('conversationUpdate', function (activity) {  
-    if (activity.membersAdded) {
-        activity.membersAdded.forEach((identity) => {
-            if (identity.id === activity.address.bot.id) {
-                   bot.beginDialog(activity.address, 'firstDialog');
-             }
-         });
-    }
+
+    requestify.get('http://localhost/ChatbotWizardAPI/api/Dialogs/Get').then(function(response) {
+        var response = response.getBody();
+        for (var i=0; i<response.length; i++){
+            if (response[i].IsFirstDialog){
+                if (activity.membersAdded) {
+                    activity.membersAdded.forEach((identity) => {
+                        if (identity.id === activity.address.bot.id) {
+                               bot.beginDialog(activity.address, response[i].DialogName);
+                         }
+                     });
+                }
+
+            }
+        }
+})
+
  });
 
 
