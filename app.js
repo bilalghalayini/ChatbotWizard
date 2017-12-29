@@ -388,7 +388,7 @@ var program = {
                     responses.push({
                         dialogName : session.conversationData.dialogName,
                         result : results.response.entity.split(";")[1]
-                    });
+                    });;
 
                     mainCounter = dialogCounters.indexOf(session.conversationData.dialogName);
                     var options = JSON.parse(response[mainCounter]["DialogOptions"]);
