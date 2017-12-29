@@ -576,6 +576,15 @@ var program = {
                     var DialogName = response[mainCounter].DialogName;
 
                     for (var j=0; j<options.actions.length; j++){
+
+                        if (options.actions[j].validEmail == true){
+                            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                            if (!re.test(results.response)){
+                                session.send("Invalid Email!");
+                                session.replaceDialog(session.conversationData.dialogName);
+                                return false;
+                            }
+                        }
                         switch (options.actions[j].type){
                             case "dialog":
                             var dialogName = options.actions[j].dialogName;
