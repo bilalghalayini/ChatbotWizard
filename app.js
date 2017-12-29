@@ -103,7 +103,7 @@ var EnglishRecognizers = {
         EnGreetingsRecognizer : new builder.RegExpRecognizer( "EnGreetings",/^(hi|hello|good morning|good evening|good afternoon)/i),///(^(?=.*(hi|hello|good morning|good evening|good afternoon)))/i),// /(Hi|hello|good morning|good evening|good afternoon|)/i),
         MainMenuRecognizer : new builder.RegExpRecognizer( "MainMenu",/^(main menu|back to main menu)/i),///(^(?=.*(main menu|back to main menu|)))/i),
         // greetingRecognizer : new builder.RegExpRecognizer( "Greeting", /(السلام عليكم|صباح الخير|مساء الخير|مرحباً)/i),
-        arabicRecognizer : new builder.RegExpRecognizer( "Arabic", /(العربية)/i), 
+        //arabicRecognizer : new builder.RegExpRecognizer( "Arabic", /(العربية)/i), 
         englishRecognizer : new builder.RegExpRecognizer( "English", /(English)/i),
         ChangeLanguageRecognizer : new builder.RegExpRecognizer( "EnglishArabic", /(Change Language | تغيير اللغه)/i),
         CreditCardStartRecognizer : new builder.RegExpRecognizer( "CreditCardStartRecog", /(View all available Credit Card Offers|عرض بطاقات الإئتمان المتاحه)/i),
