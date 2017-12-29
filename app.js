@@ -577,7 +577,7 @@ var program = {
                     var options = JSON.parse(response[mainCounter]["DialogOptions"]);
                     var DialogTypeId = response[mainCounter].DialogTypeId;
                     var DialogName = response[mainCounter].DialogName;
-                    session.send("Test");
+
                     for (var j=0; j<options.actions.length; j++){
 
                         if (options.actions[j].validEmail == true){
