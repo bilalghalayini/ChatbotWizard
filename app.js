@@ -117,7 +117,7 @@ var intents = new builder.IntentDialog({ recognizers: [
     EnglishRecognizers.EnSupportRecognizer,
     EnglishRecognizers.EnGreetingsRecognizer,
     EnglishRecognizers.MainMenuRecognizer,
-    EnglishRecognizers.arabicRecognizer,
+    //EnglishRecognizers.arabicRecognizer,
     EnglishRecognizers.englishRecognizer,
     EnglishRecognizers.ChangeLanguageRecognizer,
     EnglishRecognizers.CreditCardStartRecognizer,
