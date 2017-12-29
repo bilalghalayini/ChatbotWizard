@@ -201,25 +201,27 @@ var intents = new builder.IntentDialog({ recognizers: [
 ])
 .matches('English',(session, args) => {
     // session.send('English');
-    var locale ="en";
+    /*var locale ="en";
     session.conversationData.lang = "en";
     session.preferredLocale(locale,function(err){
         if(!err){
             // session.send("welcomeText");
-            session.replaceDialog("ExistingUser");
+            session.replaceDialog("EnglishGreeting");
         };
-    })
+    })*/
+    session.replaceDialog("EnglishGreeting");
 })
 .matches('Arabic',(session, args) => {
     // session.send('Arabic');
-    var locale ="ar";
+    /*var locale ="ar";
     session.conversationData.lang = locale;
     session.preferredLocale(locale,function(err){
         if(!err){
             // session.send("welcomeText");
             session.replaceDialog("arabicNotYet");
         };
-    })
+    })*/
+    session.replaceDialog("ArabicGreeting");
 })
 
 .onDefault((session) => {
