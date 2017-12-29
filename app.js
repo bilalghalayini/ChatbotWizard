@@ -53,9 +53,10 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
     appPassword:"vszZWtRjM7wbrXtmyBCu8EW"// process.env.MICROSOFT_APP_PASSWORD
 });*/
 var initialDialog = "";
+var serviceBase = "http://chatbotwizard.azurewebsites.net/api/";
 var connector = new builder.ChatConnector({
-    appId:"e58dba73-bea7-4700-a265-728c974124e3",// process.env.MICROSOFT_APP_ID,
-    appPassword:"P3eoTO=jLn4kB(oj"// process.env.MICROSOFT_APP_PASSWORD
+    appId:"bea33af8-8cb3-4437-8bb3-296df8c1e389",// process.env.MICROSOFT_APP_ID,
+    appPassword:")JaSV|[Ea}n[PwQQ"// process.env.MICROSOFT_APP_PASSWORD
 });
 
 var connectorCreditCard = new builder.ChatConnector({
@@ -317,7 +318,7 @@ var program = {
         var dialogCounters = [];
         var responses = [];
        
-          requestify.get('http://localhost/ChatbotWizardAPI/api/Dialogs/Get').then(function(response) {
+          requestify.get(serviceBase + 'Dialogs/Get').then(function(response) {
             // Get the response body
             var response = response.getBody();
             for (var i=0; i<response.length; i++){
@@ -710,7 +711,7 @@ program.Init();
 
 bot.on('conversationUpdate', function (activity) {  
 
-    requestify.get('http://localhost/ChatbotWizardAPI/api/Dialogs/Get').then(function(response) {
+    requestify.get(serviceBase + 'Dialogs/Get').then(function(response) {
         var response = response.getBody();
         for (var i=0; i<response.length; i++){
             if (response[i].IsFirstDialog){
