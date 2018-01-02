@@ -41,11 +41,13 @@ function acquireToken(dynamicsWebApiCallback){
     }
     adalContext.acquireTokenWithUsernamePassword(resource, username, password, clientId, adalCallback);
 }
+
 // Setup Restify Server
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
+
 
 // Create chat connector for communicating with the Bot Framework Service
 //Local usage
@@ -71,8 +73,8 @@ var connectorLoan = new builder.ChatConnector({
 });
 
 // Listen for messages from users 
-server.post('/api/loan/messages', connectorLoan.listen());
-server.post('/api/creditcards/messages', connectorCreditCard.listen());
+//server.post('/api/loan/messages', connectorLoan.listen());
+//server.post('/api/creditcards/messages', connectorCreditCard.listen());
 
 server.post('/api/messages', connector.listen());
 
@@ -291,11 +293,10 @@ var program = {
         },
     },
     Init : function(){
-        
         program.RegisterDialogs(bot);
-        bot.dialog("/",intents);
-        botCreditCard.dialog("/",intents);
-        botLoan.dialog("/",intents);
+        //bot.dialog("/",intents);
+        //botCreditCard.dialog("/",intents);
+        //botLoan.dialog("/",intents);
     },
     IntentHelper:{
         url : "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/0cfcf9f6-0ad6-47c3-bd2a-094f979484db?subscription-key=13b10b366d2743cda4d800ff0fd10077&timezoneOffset=0&verbose=true&q=",
@@ -324,7 +325,6 @@ var program = {
           requestify.get(serviceBase + 'Dialogs/Get').then(function(response) {
             // Get the response body
             var response = response.getBody();
-            console.log(response);
             for (var i=0; i<response.length; i++){
             var DialogTypeId = response[i].DialogTypeId;
             var DialogName = response[i].DialogName;
@@ -710,11 +710,10 @@ var program = {
  
 }
 
-program.Init();
 
 
 bot.on('conversationUpdate', function (activity) {  
-
+    program.Init();
     requestify.get(serviceBase + 'Dialogs/Get').then(function(response) {
         var response = response.getBody();
         for (var i=0; i<response.length; i++){
