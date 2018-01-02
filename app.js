@@ -16,7 +16,7 @@ var dynamicsWebApi = new DynamicsWebApi({
 });
 Q = require('q');
 var app = require('express')();
-
+app.disable('view cache');
 // var authorityUrl = 'https://login.microsoftonline.com/d022f938-d149-41eb-89fc-2792c9c82ee2/oauth2/token';
 // var resource = 'https://advancyaqatar0.crm4.dynamics.com';
 // var clientId = 'a5fca245-2eb5-469b-9a36-445203c29a9b';
