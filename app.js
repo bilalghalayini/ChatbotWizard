@@ -48,6 +48,12 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
 
+function RestartServer(){
+    app.get('/restart', function (req, res, next) {
+        process.exit(1);
+      });
+}
+
 
 // Create chat connector for communicating with the Bot Framework Service
 //Local usage
@@ -753,6 +759,11 @@ bot.on('conversationUpdate', function (activity) {
          });
     }
  });
+ bot.on("event", function (event) {
+    var msg = new builder.Message().address(event.address);
+    msg.text = "testing";
+    bot.send(msg);
+ })
 //  botCreditCard.on('conversationUpdate', function (activity) {  
 //     if (activity.membersAdded) {
 //         activity.membersAdded.forEach((identity) => {
