@@ -759,6 +759,11 @@ bot.on('conversationUpdate', function (activity) {
     }
  });
  bot.on("event", function (event) {
+    var bot = new builder.UniversalBot(connector,{
+        localizerSettings: { 
+            defaultLocale: "en" 
+        } 
+    });
     program.Init();
     //RestartServer();
     var msg = new builder.Message().address(event.address);
