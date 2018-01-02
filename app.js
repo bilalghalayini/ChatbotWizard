@@ -324,6 +324,7 @@ var program = {
           requestify.get(serviceBase + 'Dialogs/Get').then(function(response) {
             // Get the response body
             var response = response.getBody();
+            console.log(response);
             for (var i=0; i<response.length; i++){
             var DialogTypeId = response[i].DialogTypeId;
             var DialogName = response[i].DialogName;
