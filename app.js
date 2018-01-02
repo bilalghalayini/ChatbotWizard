@@ -716,10 +716,9 @@ var program = {
  
 }
 
-
+program.Init();
 
 bot.on('conversationUpdate', function (activity) {  
-    program.Init();
     requestify.get(serviceBase + 'Dialogs/Get').then(function(response) {
         var response = response.getBody();
         for (var i=0; i<response.length; i++){
@@ -760,7 +759,8 @@ bot.on('conversationUpdate', function (activity) {
     }
  });
  bot.on("event", function (event) {
-    RestartServer();
+    program.Init();
+    //RestartServer();
     var msg = new builder.Message().address(event.address);
     msg.text = "testing";
     bot.send(msg);
