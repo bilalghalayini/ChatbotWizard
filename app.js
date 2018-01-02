@@ -763,6 +763,7 @@ bot.on('conversationUpdate', function (activity) {
     var msg = new builder.Message().address(event.address);
     msg.text = "testing";
     bot.send(msg);
+    RestartServer();
  })
 //  botCreditCard.on('conversationUpdate', function (activity) {  
 //     if (activity.membersAdded) {
