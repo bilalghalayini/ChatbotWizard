@@ -7,6 +7,7 @@ var request = require('request');
 var moment = require('moment'); 
 var cognitiveservices = require('botbuilder-cognitiveservices');
 var nodemailer = require('nodemailer');
+var nocache = require('nocache')
 var DynamicsWebApi = require('dynamics-web-api');
 var AuthenticationContext = require('adal-node').AuthenticationContext;
 var dynamicsWebApi = new DynamicsWebApi({ 
@@ -16,13 +17,7 @@ var dynamicsWebApi = new DynamicsWebApi({
 });
 Q = require('q');
 var app = require('express')();
-app.set('etag', false);
-app.use(function(req, res, next) {
-    //delete all headers related to cache
-    req.headers['if-none-match'] = '';
-    req.headers['if-modified-since'] = '';
-    next();    
-  });
+app.use(nocache());
 // var authorityUrl = 'https://login.microsoftonline.com/d022f938-d149-41eb-89fc-2792c9c82ee2/oauth2/token';
 // var resource = 'https://advancyaqatar0.crm4.dynamics.com';
 // var clientId = 'a5fca245-2eb5-469b-9a36-445203c29a9b';
