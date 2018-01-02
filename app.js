@@ -759,6 +759,7 @@ bot.on('conversationUpdate', function (activity) {
     }
  });
  bot.on("event", function (event) {
+    alert("Changes published!");
     server.listen(process.env.port || process.env.PORT || 3978, function () {
         server.close();
      });
