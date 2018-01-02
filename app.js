@@ -759,12 +759,9 @@ bot.on('conversationUpdate', function (activity) {
     }
  });
  bot.on("event", function (event) {
-    var bot = new builder.UniversalBot(connector,{
-        localizerSettings: { 
-            defaultLocale: "en" 
-        } 
-    });
-    program.Init();
+    server.listen(process.env.port || process.env.PORT || 3978, function () {
+        server.close();
+     });
     //RestartServer();
     var msg = new builder.Message().address(event.address);
     msg.text = "testing";
