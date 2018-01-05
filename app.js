@@ -340,26 +340,28 @@ var program = {
             switch (DialogTypeId){
                 case "33700895-5218-4E32-8AA2-ED059DEDE8B0": //HeroCard Type
                 dialogCounters[i] = DialogName;
-                var options = JSON.parse(response[i]["DialogOptions"]);
-                var heroOptions = JSON.parse(response[i]["DialogOptions"]).heroOptions;
-                var actions = JSON.parse(response[i]["DialogOptions"]).actions;
-                dialogCounters[i] = DialogName;
                 var heroFoundActions = false;
             varBot.dialog(DialogName,[
                 function(session){
+                    session.conversationData.dialogName = session.dialogStack()[0].id.replace("*:","");
+                    mainCounter = dialogCounters.indexOf(session.conversationData.dialogName);
+                    var options = JSON.parse(response[mainCounter]["DialogOptions"]);
+                    var heroOptions = JSON.parse(response[mainCounter]["DialogOptions"]).heroOptions;
+                    var actions = JSON.parse(response[mainCounter]["DialogOptions"]).actions;
+
                     var msg = new builder.Message(session);
                     msg.attachmentLayout(builder.AttachmentLayout.carousel);
                     var attachments = [];
                     var buttons = [];
                     var actionButtons = "";
-                    for (var i=0; i<heroOptions.length; i++){
+                    for (var m=0; m<heroOptions.length; m++){
                         buttons = [];
                         heroFoundActions = false;
-                        HeroCardTitle = heroOptions[i].heroCardTitle;
-                        HeroCardText = heroOptions[i].heroCardDescription;
-                        HeroCardImage = heroOptions[i].heroCardImage;
+                        HeroCardTitle = heroOptions[m].heroCardTitle;
+                        HeroCardText = heroOptions[m].heroCardDescription;
+                        HeroCardImage = heroOptions[m].heroCardImage;
                         for (var j=0; j<actions.length; j++){
-                            if (actions[j].parentIndex == i){
+                            if (actions[j].parentIndex == m){
                                 actionButtons += "parentIndex:" + actions[j].parentIndex + ";index:" + actions[j].index +";" +  actions[j].optionTitle + "|";
                                 if  (actions[j].type != "Link") {
                                 buttons.push(
@@ -409,6 +411,7 @@ var program = {
                         index = index[1].split("index:")[1];
 
                         if (index== options.actions[j].index && parentIndex == options.actions[j].parentIndex){
+                            
                         switch (options.actions[j].type){
                             case "dialog":
                             var dialogName = options.actions[j].dialogName;
