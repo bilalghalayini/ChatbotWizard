@@ -498,7 +498,6 @@ var program = {
                     var DialogName = response[mainCounter].DialogName;
                     for (var j=0; j<options.actions.length; j++){
                         if (results.response.index == options.actions[j].index){
-                            session.send(options.actions[j].type);
                         switch (options.actions[j].type){
                             case "dialog":
                             var dialogName = options.actions[j].dialogName;
