@@ -218,7 +218,8 @@ var intents = new builder.IntentDialog({ recognizers: [
             session.replaceDialog("EnglishGreeting");
         };
     })*/
-    session.replaceDialog("EnglishGreeting");
+    session.send("Test");
+    //session.replaceDialog("EnglishGreeting");
 })
 .matches('Arabic',(session, args) => {
     // session.send('Arabic');
