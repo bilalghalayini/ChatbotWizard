@@ -64,8 +64,8 @@ function RestartServer(){
 var initialDialog = "";
 var serviceBase = "http://chatbotwizard.azurewebsites.net/api/";
 var connector = new builder.ChatConnector({
-    appId:"bea33af8-8cb3-4437-8bb3-296df8c1e389",// process.env.MICROSOFT_APP_ID,
-    appPassword:")JaSV|[Ea}n[PwQQ"// process.env.MICROSOFT_APP_PASSWORD
+    appId:"9c5c3066-91bf-4bcc-8e9b-03366aa3a04b",// process.env.MICROSOFT_APP_ID,
+    appPassword:"54X@c>19IE+G$J:g"// process.env.MICROSOFT_APP_PASSWORD
 });
 
 var connectorCreditCard = new builder.ChatConnector({
