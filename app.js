@@ -300,7 +300,7 @@ var program = {
     },
     Init : function(){
         program.RegisterDialogs(bot);
-        //bot.dialog("/",intents);
+        bot.dialog("/",intents);
         //botCreditCard.dialog("/",intents);
         //botLoan.dialog("/",intents);
     },
