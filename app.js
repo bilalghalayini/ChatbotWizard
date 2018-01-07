@@ -369,10 +369,10 @@ var program = {
                         HeroCardImage = heroOptions[m].heroCardImage;
                         for (var j=0; j<actions.length; j++){
                             if (actions[j].parentIndex == m){
-                                actionButtons += "parentIndex:" + actions[j].parentIndex + ";index:" + actions[j].index +";" +  HeroCardTitle + "|";
+                                actionButtons += "parentIndex:" + actions[j].parentIndex + ";index:" + actions[j].index +";" +  actions[j].optionTitle + "|";
                                 if  (actions[j].type != "Link") {
                                 buttons.push(
-                                        builder.CardAction.imBack(session, HeroCardTitle, actions[j].optionTitle)
+                                        builder.CardAction.imBack(session, actions[j].optionTitle, actions[j].optionTitle)
                                     );
                                 }
                                 else{
@@ -401,26 +401,26 @@ var program = {
                 }
                 ,
                 function(session,results){
-
                     responses.push({
                         dialogName : session.conversationData.dialogName,
                         result : results.response.entity.split(";")[2]
                     });
 
                     session.conversationData[session.conversationData.dialogName] = results.response.entity.split(";")[2];
-
+                    
+                    
                     mainCounter = dialogCounters.indexOf(session.conversationData.dialogName);
                     var options = JSON.parse(response[mainCounter]["DialogOptions"]);
                     var DialogTypeId = response[mainCounter].DialogTypeId;
                     var DialogName = response[mainCounter].DialogName;
+                    
                     for (var j=0; j<options.actions.length; j++){
                         var parentIndex = results.response.entity.split(";");
+                        
                         parentIndex = parentIndex[0].split("parentIndex:")[1];
                         var index = results.response.entity.split(";");
                         index = index[1].split("index:")[1];
-
                         if (index== options.actions[j].index && parentIndex == options.actions[j].parentIndex){
-                            
                         switch (options.actions[j].type){
                             case "dialog":
                             var dialogName = options.actions[j].dialogName;
@@ -599,6 +599,7 @@ var program = {
                     session.conversationData[mainCounter] = session.conversationData.dialogName;
                     for (var k=0; k<100; k++){
                     try{
+                    
                         Text = Text.replace("{{" + session.conversationData[k] + "_response}}",session.conversationData[session.conversationData[k]]);
                     }
                     catch(e){}
