@@ -63,6 +63,7 @@ function RestartServer(){
 });*/
 var initialDialog = "";
 var serviceBase = "http://chatbotwizard.azurewebsites.net/api/";
+//var serviceBase = "http://localhost/chatbotWizardAPI/api/";
 var connector = new builder.ChatConnector({
     appId:"eb93e224-807f-44ec-8e7c-9b7a4587445f",// process.env.MICROSOFT_APP_ID,
     appPassword:"q0axUf^M>5X1PYa$"// process.env.MICROSOFT_APP_PASSWORD
@@ -348,7 +349,7 @@ var program = {
                     var options = JSON.parse(response[mainCounter]["DialogOptions"]);
                     var heroOptions = JSON.parse(response[mainCounter]["DialogOptions"]).heroOptions;
                     var actions = JSON.parse(response[mainCounter]["DialogOptions"]).actions;
-
+                    session.conversationData[mainCounter] = session.conversationData.dialogName;
                     var msg = new builder.Message(session);
                     msg.attachmentLayout(builder.AttachmentLayout.carousel);
                     var attachments = [];
@@ -359,13 +360,19 @@ var program = {
                         heroFoundActions = false;
                         HeroCardTitle = heroOptions[m].heroCardTitle;
                         HeroCardText = heroOptions[m].heroCardDescription;
+                        for (var k=0; k<100; k++){
+                        try{
+                            HeroCardText = HeroCardText.replace("{{" + session.conversationData[k] + "_response}}",session.conversationData[session.conversationData[k]]);
+                        }
+                        catch(e){}
+                        }
                         HeroCardImage = heroOptions[m].heroCardImage;
                         for (var j=0; j<actions.length; j++){
                             if (actions[j].parentIndex == m){
-                                actionButtons += "parentIndex:" + actions[j].parentIndex + ";index:" + actions[j].index +";" +  actions[j].optionTitle + "|";
+                                actionButtons += "parentIndex:" + actions[j].parentIndex + ";index:" + actions[j].index +";" +  HeroCardTitle + "|";
                                 if  (actions[j].type != "Link") {
                                 buttons.push(
-                                        builder.CardAction.imBack(session, actions[j].optionTitle, actions[j].optionTitle)
+                                        builder.CardAction.imBack(session, HeroCardTitle, actions[j].optionTitle)
                                     );
                                 }
                                 else{
@@ -397,8 +404,10 @@ var program = {
 
                     responses.push({
                         dialogName : session.conversationData.dialogName,
-                        result : results.response.entity.split(";")[1]
-                    });;
+                        result : results.response.entity.split(";")[2]
+                    });
+
+                    session.conversationData[session.conversationData.dialogName] = results.response.entity.split(";")[2];
 
                     mainCounter = dialogCounters.indexOf(session.conversationData.dialogName);
                     var options = JSON.parse(response[mainCounter]["DialogOptions"]);
@@ -442,7 +451,6 @@ var program = {
                         to = to.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
                         html = html.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
                     }
-                    console.log(to);
                     /*html = html.replace("{{firstname}}",data.firstname);
                     html = html.replace("{{doctorName}}",data.doctorName);
                     html = html.replace("{{location}}",data.location);
@@ -486,6 +494,15 @@ var program = {
                     mainCounter = dialogCounters.indexOf(session.conversationData.dialogName);
                     var options = JSON.parse(response[mainCounter]["DialogOptions"]);
                     var Text = options.text;
+                    session.conversationData[mainCounter] = session.conversationData.dialogName;
+                    for (var k=0; k<100; k++){
+                    try{
+                    
+                        Text = Text.replace("{{" + session.conversationData[k] + "_response}}",session.conversationData[session.conversationData[k]]);
+                    }
+                    catch(e){}
+                    }
+
                     dialogCounters[i] = DialogName;
                     var Choices = options.options.choices;
                     builder.Prompts.choice(session, Text, Choices,{listStyle: builder.ListStyle.button});
@@ -495,6 +512,9 @@ var program = {
                         dialogName : session.conversationData.dialogName,
                         result : results.response.entity
                     });
+                    session.conversationData[session.conversationData.dialogName] = results.response.entity;
+                    //console.log(session.conversationData[session.conversationData.dialogName]);
+                    //return false;
                     mainCounter = dialogCounters.indexOf(session.conversationData.dialogName);
                     var options = JSON.parse(response[mainCounter]["DialogOptions"]);
                     var DialogTypeId = response[mainCounter].DialogTypeId;
@@ -528,10 +548,11 @@ var program = {
                     var to = options.email.to;
                     var html = options.email.body;
                     for (var i=0; i<responses.length; i++){
-                        to = to.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
-                        html = html.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
+                       // to = to.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
+                       // html = html.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
+                        to = to.replace("{{" + responses[i].dialogName + "_response}}", session.conversationData[responses[i].dialogName]);
+                        html = html.replace("{{" + responses[i].dialogName + "_response}}", session.conversationData[responses[i].dialogName]);
                     }
-                    console.log(to);
                     /*html = html.replace("{{firstname}}",data.firstname);
                     html = html.replace("{{doctorName}}",data.doctorName);
                     html = html.replace("{{location}}",data.location);
@@ -572,8 +593,16 @@ var program = {
                 function(session){
                     session.conversationData.dialogName = session.dialogStack()[0].id.replace("*:","");
                     mainCounter = dialogCounters.indexOf(session.conversationData.dialogName);
+
                     var options = JSON.parse(response[mainCounter]["DialogOptions"]);
                     var Text = options.text;
+                    session.conversationData[mainCounter] = session.conversationData.dialogName;
+                    for (var k=0; k<100; k++){
+                    try{
+                        Text = Text.replace("{{" + session.conversationData[k] + "_response}}",session.conversationData[session.conversationData[k]]);
+                    }
+                    catch(e){}
+                    }
                     dialogCounters[i] = DialogName;
                     builder.Prompts.text(session, Text);
                 },
@@ -582,6 +611,7 @@ var program = {
                         dialogName : session.conversationData.dialogName,
                         result : results.response
                     });
+                    session.conversationData[session.conversationData.dialogName] = results.response;
                     mainCounter = dialogCounters.indexOf(session.conversationData.dialogName);
                     var resultResponse = results.response;
 
@@ -625,8 +655,8 @@ var program = {
                         var to = options.email.to;
                         var html = options.email.body;
                         for (var i=0; i<responses.length; i++){
-                            to = to.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
-                            html = html.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
+                            to = to.replace("{{" + responses[i].dialogName + "_response}}",session.conversationData[responses[i].dialogName]);
+                            html = html.replace("{{" + responses[i].dialogName + "_response}}", session.conversationData[responses[i].dialogName]);
                         }
                         
                         /*html = html.replace("{{firstname}}",data.firstname);
