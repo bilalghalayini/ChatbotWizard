@@ -386,7 +386,7 @@ var program = {
                         attachments.push(
                             new builder.HeroCard(session)
                             .title(HeroCardTitle)
-                            .text(HeroCardText)
+                            .text(HeroCardText.split("<br />").join("\n\n"))
                             .images([builder.CardImage.create(session, HeroCardImage)])
                             .buttons(buttons)
                         )
