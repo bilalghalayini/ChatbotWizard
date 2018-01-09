@@ -362,7 +362,7 @@ var program = {
                         HeroCardText = heroOptions[m].heroCardDescription;
                         for (var k=0; k<100; k++){
                         try{
-                            HeroCardText = HeroCardText.replace("{{" + session.conversationData[k] + "_response}}",session.conversationData[session.conversationData[k]]);
+                            HeroCardText = HeroCardText.split("{{" + session.conversationData[k] + "_response}}").join(session.conversationData[session.conversationData[k]]);
                         }
                         catch(e){}
                         }
@@ -448,8 +448,11 @@ var program = {
                     var to = options.email.to;
                     var html = options.email.body;
                     for (var i=0; i<responses.length; i++){
-                        to = to.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
-                        html = html.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
+                       // to = to.split("{{" + responses[i].dialogName + "_response}}").join(responses[i].result);
+                       // html = html.split("{{" + responses[i].dialogName + "_response}}").join(responses[i].result);
+                        to = to.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);
+                        html = html.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);         
+
                     }
                     /*html = html.replace("{{firstname}}",data.firstname);
                     html = html.replace("{{doctorName}}",data.doctorName);
@@ -498,7 +501,7 @@ var program = {
                     for (var k=0; k<100; k++){
                     try{
                     
-                        Text = Text.replace("{{" + session.conversationData[k] + "_response}}",session.conversationData[session.conversationData[k]]);
+                        Text = Text.split("{{" + session.conversationData[k] + "_response}}").join(session.conversationData[session.conversationData[k]]);
                     }
                     catch(e){}
                     }
@@ -550,8 +553,9 @@ var program = {
                     for (var i=0; i<responses.length; i++){
                        // to = to.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
                        // html = html.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
-                        to = to.replace("{{" + responses[i].dialogName + "_response}}", session.conversationData[responses[i].dialogName]);
-                        html = html.replace("{{" + responses[i].dialogName + "_response}}", session.conversationData[responses[i].dialogName]);
+                       
+                       to = to.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);
+                        html = html.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);
                     }
                     /*html = html.replace("{{firstname}}",data.firstname);
                     html = html.replace("{{doctorName}}",data.doctorName);
@@ -600,7 +604,7 @@ var program = {
                     for (var k=0; k<100; k++){
                     try{
                     
-                        Text = Text.replace("{{" + session.conversationData[k] + "_response}}",session.conversationData[session.conversationData[k]]);
+                        Text = Text.split("{{" + session.conversationData[k] + "_response}}").join(session.conversationData[session.conversationData[k]]);
                     }
                     catch(e){}
                     }
@@ -656,8 +660,8 @@ var program = {
                         var to = options.email.to;
                         var html = options.email.body;
                         for (var i=0; i<responses.length; i++){
-                            to = to.replace("{{" + responses[i].dialogName + "_response}}",session.conversationData[responses[i].dialogName]);
-                            html = html.replace("{{" + responses[i].dialogName + "_response}}", session.conversationData[responses[i].dialogName]);
+                            to = to.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);
+                            html = html.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);
                         }
                         
                         /*html = html.replace("{{firstname}}",data.firstname);
