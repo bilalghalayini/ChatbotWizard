@@ -447,9 +447,15 @@ var program = {
                     
                     var to = options.email.to;
                     var html = options.email.body;
+                    var cc=""
                     for (var i=0; i<responses.length; i++){
                        // to = to.split("{{" + responses[i].dialogName + "_response}}").join(responses[i].result);
                        // html = html.split("{{" + responses[i].dialogName + "_response}}").join(responses[i].result);
+                       try{
+                        cc = options.email.cc;
+                        cc = cc.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);
+                        }
+                        catch(e){};
                         to = to.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);
                         html = html.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);         
 
@@ -469,6 +475,7 @@ var program = {
                     var mailOptions = {
                         from: 'rattazataom@gmail.com',
                         to: to,
+                        cc: cc,
                         subject: options.email.subject,
                         html: html,
                         
@@ -547,13 +554,18 @@ var program = {
                 try{
                 if (options.options.sendEmail){
                     options = options.options;
-                    
+                    var cc = "";
                     var to = options.email.to;
                     var html = options.email.body;
                     for (var i=0; i<responses.length; i++){
                        // to = to.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
+
                        // html = html.replace("{{" + responses[i].dialogName + "_response}}", responses[i].result);
-                       
+                       try{
+                        cc = options.email.cc;
+                        cc = cc.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);
+                        }
+                        catch(e){};
                        to = to.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);
                         html = html.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);
                     }
@@ -572,6 +584,7 @@ var program = {
                     var mailOptions = {
                         from: 'rattazataom@gmail.com',
                         to: to,
+                        cc: cc,
                         subject: options.email.subject,
                         html: html,
                         
@@ -658,10 +671,16 @@ var program = {
                     if (options.options.sendEmail){
                         options = options.options;
                         var to = options.email.to;
+                        var cc = "";
                         var html = options.email.body;
                         for (var i=0; i<responses.length; i++){
                             to = to.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);
                             html = html.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);
+                            try{
+                            cc = options.email.cc;
+                            cc = cc.split("{{" + responses[i].dialogName + "_response}}").join(session.conversationData[responses[i].dialogName]);
+                            }
+                            catch(e){}
                         }
                         
                         /*html = html.replace("{{firstname}}",data.firstname);
@@ -679,6 +698,7 @@ var program = {
                         var mailOptions = {
                             from: 'rattazataom@gmail.com',
                             to: to,
+                            cc: cc,
                             subject: options.email.subject,
                             html: html,
                             
